@@ -82,8 +82,7 @@
 
 <details>
 <summary>抓包大致方法</summary>
-![](https://i.loli.net/2021/08/07/VBrtzGnQEJc5XF4.png)
-
+<a href="https://sm.ms/image/VBrtzGnQEJc5XF4" target="_blank"><img src="https://i.loli.net/2021/08/07/VBrtzGnQEJc5XF4.png" ></a>
 
 - 在电脑上安装配置好 Fiddler。
 - 启动微信电脑版和 Fiddler，打开我在校园小程序，先手动打卡一次日检日报/健康打卡。
