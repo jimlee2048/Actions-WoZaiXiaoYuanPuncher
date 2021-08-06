@@ -10,7 +10,7 @@ on:
 
   # Github Action uses UTC time, +8 for Beijing time
   schedule:
-    - cron:  '30 5,12,23 * * *' # 默认在每天 UTC 5:30、12:30 和 23:30 （北京时间 13:30、20:30 和 7:30）执行
+    - cron:  '30 12,23 * * *' # 默认在每天 UTC 12:30 和 23:30 （北京时间 20:30 和 7:30）执行
 
 
 
@@ -48,7 +48,7 @@ jobs:
         WZXY_CITY: ${{secrets.CITY}}
         WZXY_DISTRICT: ${{secrets.DISTRICT}}
         WZXY_PROVINCE: ${{secrets.PROVINCE}}
-        # WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
-        # WZXY_STREET: ${{secrets.STREET}}
+        WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
+        WZXY_STREET: ${{secrets.STREET}}
       run: python wzxy-dailyreport.py
       

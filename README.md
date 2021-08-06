@@ -27,17 +27,15 @@
 
 ## 使用指南
 
-### Step1 从模板创建项目仓库
+### Step1 Fork本仓库
 
-- 点击本仓库页面中的 `Use this template` 绿色按钮。
-- 进入新建仓库页面，填写名称；如果不知道填什么，你可以复制本仓库的名称 “WoZaiXiaoYuanPuncher-Actions”。
-- 如有需要，你还可以在新建仓库页面选中 “Private” 选项，这将把新建的项目仓库设为其他人不可见的私有仓库。
-- 在新建仓库页面设置完成，点击 `Create repository from template`，等待几秒后将跳转到新建的仓库，打卡所需的脚本与工作流配置文件会从本仓库复制到新建的仓库中。
+- 点击本仓库页面中右上角的 `Fork` 按钮。
+- 稍等片刻，将自动跳转至新建的仓库。
 
 ### Step2 配置打卡参数
 
 - 在新建的仓库页面，点击选项 `Settings`，进入项目仓库设置页面。
-- 在左方侧边栏点击页面上方选项 `Secrects`，点击右上方按钮 `New repository secret”`, 新建以下 Secrect，并填写对应Value值：
+- 在左方侧边栏点击页面上方选项 `Secrects`，点击右上方按钮 `New repository secret`, 新建以下 Secrect，并填写对应 Value 值：
   - `USERNAME`：我在校园账号的用户名。
   - `PASSWORD`：我在校园账号的密码。
   - `CACHE_NAME`：值任意，用于储存 jwsession 的缓存文件的前缀名。为避免信息泄露，建议使用包含数字与大小写英文的无序字符串，且长度在32位以上（可以尝试键盘乱打 or 使用生成器）。
@@ -68,11 +66,7 @@
 
   - `TOWNSHIP`：打卡该项目时所提交位置信息的街道，对应抓包信息中的 “township” 。
 
-    （在 Environment “`WZXY_POSITION_HC`”（对应健康打卡）中可以不建）
-
   - `STREET`：Value 值填写 打卡该项目时所提交位置信息的路，对应抓包信息中的 “street”。
-
-    （在 Environment “`WZXY_POSITION_HC`”（对应健康打卡）中可以不建）
 
   > - 由于不同的学校情况与实际需求，以上数据需要自行抓取。
   >
@@ -87,25 +81,7 @@
 
 - 提交打卡信息的同时观察 Fiddler 左侧栏中最新出现的 Host 为 `student.wozaixiaoyuan.com` 的信息（如果打卡的是日检日报，URL 为`/heat/save.json`；健康打卡则为`/health/save.json"`）。
 
-- 双击打开这条信息，然后点击右侧上方的 `JSON` 一栏，你应该能看到类似以下结构的信息：
-
-  ```json
-  {
-      "answers": '["0"]',
-      "seq": *,
-      "temperature": 36.2,
-      "latitude": "***.******",
-      "longitude": "***.*****",
-      "country": "中国",
-      "city": "**市",
-      "district": "******",
-      "province": "**省",
-      "township": "******",
-      "street": "******"
-  }
-  ```
-
-  对照上面抓取的信息填写 Environment Secrects 就可以了。
+- 双击打开这条信息，然后点击右侧上方的 `WebForms` 一栏，对照显示抓取到的信息填写 Environment Secrects 就可以了。
 
 -  Fiddler配置与抓包操作参考：
 
@@ -124,7 +100,7 @@
   - 默认在每天北京时间 0:30 执行。
 - `wzxy_healthcheck.yml`
   - 对应脚本“`wzxy-healthcheck.py`”（打卡项目“健康打卡”）。
-  - 默认在每天北京时间  7:30、13:30 和 20:30 执行。
+  - 默认在每天北京时间  7:30 和 20:30 执行。
 
 如果需要修改脚本的运行时间：
 
@@ -142,7 +118,7 @@
     ```yaml
       # Github Action uses UTC time, +8 for Beijing time
       schedule:
-        - cron:  '30 5,12,23 * * *' # 默认在每天 UTC 5:30、12:30 和 23:30 （北京时间 13:30、20:30 和 7:30）执行
+        - cron:  '30 12,23 * * *' # 默认在每天 UTC 12:30 和 23:30 （北京时间 20:30 和 7:30）执行
     ```
 
     > 1. cron是个啥？百度一下！
