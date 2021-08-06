@@ -88,8 +88,7 @@
 - 启动微信电脑版和 Fiddler，打开我在校园小程序，先手动打卡一次日检日报/健康打卡。
 - 提交打卡信息的同时观察 Fiddler 左侧栏中最新出现的 Host 为 `student.wozaixiaoyuan.com` 的信息（如果打卡的是日检日报，URL 为`/heat/save.json`；健康打卡则为`/health/save.json"`）。
 - 双击打开这条信息，然后点击右侧上方的 `WebForms` 一栏，对照显示抓取到的信息填写 Environment Secrects 就可以了。
--  Fiddler 配置与抓包操作参考：
-
+- Fiddler 配置与抓包操作参考：
   - [Chaney1024/wozaixiaoyuan](Chaney1024/wozaixiaoyuan)
   - [Duangdi/fuck-wozaixiaoyuan](https://github.com/Duangdi/fuck-wozaixiaoyuan/blob/master/%E4%B8%80%E6%97%A5%E4%B8%89%E6%A3%80%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1.pdf)
   - [Liuism/xsyu-wzxy-sign](https://github.com/Liuism/xsyu-wzxy-sign)
