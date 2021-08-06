@@ -1,0 +1,51 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: WZXY_HealthCheck
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [ main ]
+  schedule:
+    - cron:  '2 8 * * *' # Github Action uses UTC time, +8 for Beijing time
+
+
+
+jobs:
+  WZXY_HealthCheck:
+
+    runs-on: ubuntu-latest
+    environment: WZXY_POSITION_HC
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Import cache
+      uses: actions/cache@v2
+      with:
+        path: .cache
+        key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
+        restore-keys: ${{ secrets.CACHE_NAME }}-
+    - name: Run script
+      env:
+        PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
+        WZXY_USERNAME: ${{secrets.USERNAME}}
+        WZXY_PASSWORD: ${{secrets.PASSWORD}}
+        WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
+        WZXY_LATITUDE: ${{secrets.LATITUDE}}
+        WZXY_LONGITUDE: ${{secrets.LONGITUDE}}
+        WZXY_COUNTRY: ${{secrets.COUNTRY}}
+        WZXY_CITY: ${{secrets.CITY}}
+        WZXY_DISTRICT: ${{secrets.DISTRICT}}
+        WZXY_PROVINCE: ${{secrets.PROVINCE}}
+        WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
+        WZXY_STREET: ${{secrets.STREET}}
+      run: python wzxy-healthcheck.py
