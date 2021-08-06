@@ -7,9 +7,10 @@ on:
   workflow_dispatch:
   # push:
   #   branches: [ main ]
+
   # Github Action uses UTC time, +8 for Beijing time
   schedule:
-    - cron:  '30 12,23 * * *' # 默认在每天 UTC 12:30 和 23:30 （北京时间 20:30 和 7:30）执行
+    - cron:  '30 5,12,23 * * *' # 默认在每天 UTC 5:30、12:30 和 23:30 （北京时间 13:30、20:30 和 7:30）执行
 
 
 
