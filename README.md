@@ -29,10 +29,14 @@
 
 ### Step1 Fork本仓库
 
+![](https://i.loli.net/2021/08/07/CXA4LBzFKxpkYj8.png)
+
 - 点击本仓库页面中右上角的 `Fork` 按钮。
 - 稍等片刻，将自动跳转至新建的仓库。
 
 ### Step2 配置打卡参数
+
+![](https://i.loli.net/2021/08/07/SEOhnMIevTAF6ou.png)
 
 - 在新建的仓库页面，点击选项 `Settings`，进入项目仓库设置页面。
 - 在左方侧边栏点击页面上方选项 `Secrects`，点击右上方按钮 `New repository secret`, 新建以下 Secrect，并填写对应 Value 值：
@@ -42,6 +46,8 @@
   - `PUSH_TOKEN`（可选）：填写自己 [pushplus](https://www.pushplus.plus/) 的 token，用于微信推送脚本执行自动打卡结果的通知。如不创建该 Secrect，则关闭推送通知功能。
   - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.4`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secrect，脚本将使用默认值`36.0~36.5`。
 
+![](https://i.loli.net/2021/08/07/zmQnwv64SUbo8YZ.png)
+
 - 在左方侧边栏点击选项 `Environments`，点击右上角按钮 `New environment` 创建打卡地理数据存放的 Environment。
   - `WZXY_POSITION_DR`（打卡项目“日检日报”，对应脚本“`wzxy-dailyreport.py`”，对应 Workflow “`WZXY_DailyReport`”）。
   - `WZXY_POSITION_HC`（打卡项目“健康打卡”，对应脚本`wzxy-healthcheck.py`，对应 Workflow “`WZXY_HealthCheck`”）。
@@ -49,7 +55,9 @@
   > 如果你无需用到其中任一脚本，你不必创建该脚本的对应环境。
   >
   > 同时，你还需要关闭该脚本对应的 Workflow，详见 Step4。
-  
+
+![](https://i.loli.net/2021/08/07/jPYLRtgVk27KAUl.png)
+
 - **分别**进入这两个新建的 Environment ，在 “Environment secrets” 一栏中点击 `Add Secrect` 按钮，新建以下 Secrect，并填写对应 Value 值：
 
   - `LATITUDE`：打卡该项目时所提交位置信息的纬度，对应抓包信息中的 “latitude”。
@@ -74,16 +82,14 @@
 
 <details>
 <summary>抓包大致方法</summary>
+![](https://i.loli.net/2021/08/07/VBrtzGnQEJc5XF4.png)
+
 
 - 在电脑上安装配置好 Fiddler。
-
 - 启动微信电脑版和 Fiddler，打开我在校园小程序，先手动打卡一次日检日报/健康打卡。
-
 - 提交打卡信息的同时观察 Fiddler 左侧栏中最新出现的 Host 为 `student.wozaixiaoyuan.com` 的信息（如果打卡的是日检日报，URL 为`/heat/save.json`；健康打卡则为`/health/save.json"`）。
-
 - 双击打开这条信息，然后点击右侧上方的 `WebForms` 一栏，对照显示抓取到的信息填写 Environment Secrects 就可以了。
-
--  Fiddler配置与抓包操作参考：
+-  Fiddler 配置与抓包操作参考：
 
   - [Chaney1024/wozaixiaoyuan](Chaney1024/wozaixiaoyuan)
   - [Duangdi/fuck-wozaixiaoyuan](https://github.com/Duangdi/fuck-wozaixiaoyuan/blob/master/%E4%B8%80%E6%97%A5%E4%B8%89%E6%A3%80%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1.pdf)
@@ -104,7 +110,10 @@
 
 如果需要修改脚本的运行时间：
 
+![](https://i.loli.net/2021/08/07/dNeS2igbwKmPzCO.png)
+
 - 点击页面上方选项 `Code`，回到项目仓库主页。
+
 - 点击文件夹`.github/workflows`，修改所需要的 Workflow 文件。
 
   以修改`wzxy_dailyreport.yml`为例：
@@ -113,16 +122,15 @@
 
   - 点击预览界面右上方笔的图标，进入编辑界面。
 
+    ![](https://i.loli.net/2021/08/07/mvgOB824MsdZ1up.png)
+
   - 根据自己的打卡时间需要，修改代码中的 cron 表达式：
 
-    ```yaml
-      # Github Action uses UTC time, +8 for Beijing time
-      schedule:
-        - cron:  '30 12,23 * * *' # 默认在每天 UTC 12:30 和 23:30 （北京时间 20:30 和 7:30）执行
-    ```
+    ![](https://i.loli.net/2021/08/07/ntImHFAeu6TM7zK.png)
 
-    > 1. cron是个啥？百度一下！
-    > 2. 注意：Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
+    > - cron是个啥？百度一下！
+    >
+    > - 注意：Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
 
 - 修改完成后，点击页面右侧绿色按钮 `Start commit`，然后点击绿色按钮 `Commit changes`。
 
@@ -134,6 +142,8 @@
   - `WZXY_HealthCheck`：对应脚本“`wzxy-healthcheck.py`”，打卡项目“健康打卡”。
 
 以测试 `WZXY_DailyReport` 为例：
+
+![](https://i.loli.net/2021/08/07/qWERC7NUDuvxPd2.png)
 
 - 在未自行打卡的打卡时段，点击右侧按钮 `Run workflow`，再次点击绿色按钮 `Run workflow`。
 
@@ -150,6 +160,8 @@
   请在Github Actions 配置界面中，打开最新的 Workflow run `WZXY_HealthCheck`，查看错误日志，并检查自己的参数配置是否正确。
 
 > 两个脚本对应的 Workflow 都默认开启定时执行任务，如果你无需使用/需要暂时停用某一脚本，请参照以下步骤停用其对应的 Workflow：
+>
+> ![](https://i.loli.net/2021/08/07/W23K7Gqzsra59Xf.png)
 >
 > - 在 Github Actions 配置页面中，左侧边栏选择需要停用的脚本所对应的 Workflow。
 > - 点击搜索栏右边的 `...` 按钮，然后点击 `Disable workflow`。
