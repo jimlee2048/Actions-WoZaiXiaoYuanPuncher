@@ -149,7 +149,7 @@
 
     > - cron是个啥？百度一下！
     >
-    > - **注意：**Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
+    > - **注意：** Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
 
 - 修改完成后，点击页面右侧绿色按钮 `Start commit`，然后点击绿色按钮 `Commit changes`。
 
