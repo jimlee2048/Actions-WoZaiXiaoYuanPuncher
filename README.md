@@ -188,7 +188,7 @@
 > ![](https://i.loli.net/2021/08/07/W23K7Gqzsra59Xf.png)
 >
 > - 在 Github Actions 配置页面中，左侧边栏选择需要停用的脚本所对应的 Workflow。
-
+>
 > - 点击搜索栏右边的 `...` 按钮，然后点击 `Disable workflow`。
 
 ## 参考/鸣谢
