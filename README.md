@@ -55,7 +55,7 @@
 
 ![](https://i.loli.net/2021/08/07/zmQnwv64SUbo8YZ.png)
 
-- 在左方侧边栏点击选项 `Environments`，点击右上角按钮 `New environment` 创建打卡地理数据存放的 Environment。
+- 在左方侧边栏点击选项 `Environments`，点击右上角按钮 `New environment` 创建存放打卡地理位置数据的 Environment。
 
   - `WZXY_POSITION_DR`（打卡项目“日检日报”，对应脚本“`wzxy-dailyreport.py`”，对应 Workflow “`WZXY_DailyReport`”）。
 
@@ -125,7 +125,7 @@
 
   - 对应脚本“`wzxy-healthcheck.py`”（打卡项目“健康打卡”）。
 
-  - 默认在每天北京时间  7:30 和 20:30 执行。
+  - 默认在每天北京时间 7:30 和 20:30 执行。
 
 如果需要修改脚本的运行时间：
 
@@ -149,7 +149,7 @@
 
     > - cron是个啥？百度一下！
     >
-    > - 注意：Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
+    > - **注意：**Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
 
 - 修改完成后，点击页面右侧绿色按钮 `Start commit`，然后点击绿色按钮 `Commit changes`。
 
