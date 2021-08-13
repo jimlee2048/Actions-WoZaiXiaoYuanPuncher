@@ -180,42 +180,56 @@ class WoZaiXiaoYuanPuncher:
 
     # 推送打卡结果
     def sendNotification(self):
-        # 如果开启了消息推送
-        if os.environ['PUSH_TOKEN']:
-            print("正在进行消息推送...")
+        notifyTime = utils.getCurrentTime()
+        notifyResult = self.getResult()
+        notifySeq = self.getSeq()
+
+        if os.environ.get('SCT_KEY'):
+            # serverchan 推送
+            notifyToken = os.environ['SCT_KEY']
+            url = "https://sctapi.ftqq.com/{}.send"
+            body = {
+                "title": "⏰ 我在校园打卡结果通知",
+                "desp": "打卡项目：日检日报\n\n打卡情况：{}\n\n打卡时段：{}\n\n打卡时间：{}".format(notifyResult, notifySeq, notifyTime)
+            }
+            requests.post(url.format(notifyToken), data=body)
+            print("消息经Serverchan-Turbo推送成功")
+        if os.environ.get('PUSHPLUS_TOKEN'):
+            # pushplus 推送
             url = 'http://www.pushplus.plus/send'
-            notifyToken = os.environ['PUSH_TOKEN']
-            notifySeq = self.getSeq()
-            notifyTime = utils.getCurrentTime()
-            notifyResult = self.getResult()
-            
+            notifyToken = os.environ['PUSHPLUS_TOKEN']
             content = json.dumps({
                 "打卡项目": "日检日报",
                 "打卡情况": notifyResult,
                 "打卡时段": notifySeq,
                 "打卡时间": notifyTime
-            },ensure_ascii = False)
-
+            }, ensure_ascii=False)
             msg = {
                 "token": notifyToken,
                 "title": "⏰ 我在校园打卡结果通知",
                 "content": content,
                 "template": "json"
             }
-            requests.post(url, data = msg)
-        else:
-            print("未设置PUSH_TOKEN，将不会推送消息")
+            requests.post(url, data=msg)
+            print("消息经pushplus推送成功")
+        if os.environ.get('BARK_TOKEN'):
+            # bark 推送
+            notifyToken = os.environ['BARK_TOKEN']
+            req = "{}/{}/{}".format(notifyToken, "⏰ 我在校园打卡（日检日报）结果通知", notifyResult)
+            requests.get(req)
+            print("消息经bark推送成功")
 
-# 找不到cache，登录+打卡 
-wzxy = WoZaiXiaoYuanPuncher()
-if not os.path.exists('.cache'): 
-    print("找不到cache文件，正在使用账号信息登录...")
-    loginStatus = wzxy.login()
-    if loginStatus:
-        wzxy.PunchIn()
+if __name__ == '__main__':
+    # 找不到cache，登录+打卡
+    wzxy = WoZaiXiaoYuanPuncher()
+    if not os.path.exists('.cache'):
+        print("找不到cache文件，正在使用账号信息登录...")
+        loginStatus = wzxy.login()
+        if loginStatus:
+            wzxy.PunchIn()
+        else:
+            print("登陆失败，请检查账号信息")
     else:
-        print("登陆失败，请检查账号信息")
-else:
-    print("找到cache文件，尝试使用jwsession打卡...")
-    wzxy.PunchIn()
-wzxy.sendNotification() 
+        print("找到cache文件，尝试使用jwsession打卡...")
+        wzxy.PunchIn()
+    wzxy.sendNotification()

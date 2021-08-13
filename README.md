@@ -3,6 +3,8 @@
 
 基于原仓库中 [@Chorer](https://github.com/Chorer) 贡献的腾讯云函数版脚本修改。
 
+**新增** 支持多种通知方式（如Serverchan-Turbo、pushplus、bark等）
+
 我的工作：
 
 - 新增脚本 `wzxy-healthcheck.py`，适配部分学校的打卡项目“健康打卡”。
@@ -49,9 +51,15 @@
 
   - `CACHE_NAME`：值任意，用于储存 jwsession 的缓存文件的前缀名。为避免信息泄露，建议使用包含数字与大小写英文的无序字符串，且长度在32位以上（可以尝试键盘乱打 or 使用生成器）。
 
-  - `PUSH_TOKEN`（可选）：填写自己 [pushplus](https://www.pushplus.plus/) 的 token，用于微信推送脚本执行自动打卡结果的通知。如不创建该 Secrect，则关闭推送通知功能。
+  - `SCT_KEY`（可选）：填写自己[Serverchan-Turbo](https://sct.ftqq.com/sendkey) 的 SendKey，用于使用Serverchan-Turbo推送打卡结果的通知。
+  
+  - `BARK_TOKEN` （可选）：填写自己Bark的推送URL，建议从Bark客户端复制，形如`http://yourdomain.name/thisisatoken`，用于使用Bark推送打卡结果的通知。
+  
+  - `PUSHPLUS_TOKEN`（可选）：填写自己 [pushplus](https://www.pushplus.plus/) 的 token，用于微信推送脚本执行自动打卡结果的通知。
 
   - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.4`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secrect，脚本将使用默认值`36.0~36.5`。
+
+- 推送通知说明：目前支持三种推送方式（pushplus、SCT、Bark），如果同时设定多个环境变量，则会对设置了环境变量的方式进行推送；若不设置任何环境变量，将不会推送打卡结果通知。
 
 ![](https://i.loli.net/2021/08/07/zmQnwv64SUbo8YZ.png)
 
