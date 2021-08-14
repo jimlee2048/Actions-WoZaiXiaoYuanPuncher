@@ -46,11 +46,17 @@
 - 在左方侧边栏点击页面上方选项 `Secrects`，点击右上方按钮 `New repository secret`, 新建以下 Secrect，并填写对应 Value 值：
 
   - `USERNAME`：我在校园账号的用户名。
+
   - `PASSWORD`：我在校园账号的密码。
+
   - `CACHE_NAME`：值任意，用于储存 jwsession 的缓存文件的前缀名。为避免信息泄露，建议使用包含数字与大小写英文的无序字符串，且长度在32位以上（可以尝试键盘乱打 or 使用生成器）。
+
   - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.4`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secrect，脚本将使用默认值`36.0~36.5`。
+
   - `SCT_KEY`（可选）：填写自己 [Serverchan-Turbo](https://sct.ftqq.com/sendkey) 的 SendKey，用于 Serverchan-Turbo 推送打卡结果的通知。
+
   - `BARK_TOKEN` （可选）：填写自己 Bark 的推送 URL，建议从 Bark 客户端复制，形如`http://yourdomain.name/thisisatoken`，用于 Bark 推送打卡结果的通知。
+
   - `PUSHPLUS_TOKEN`（可选）：填写自己 [PushPlus](https://www.pushplus.plus/) 的 token，用于 PushPlus 推送打卡结果的通知。
 
   > **推送通知的补充说明**
@@ -58,7 +64,9 @@
   > 目前支持三种推送方式（PushPlus、Serverchan-Turbo、Bark）：
   >
   > - 需要使用哪一种方式推送，创建该方式对应的 Secrect 即可。
+  >
   > - 你也可以同时创建对应不同推送方式的多个 Secrect，这将同时推送所对应的多个渠道。
+  >
   > - 如不创建这些推送方式对应的 Secrect，则不会推送打卡结果通知。
 
 
@@ -203,14 +211,19 @@
 ## 参考/致谢
 
 - [zimin9/WoZaiXiaoYuanPuncher](https://github.com/zimin9/WoZaiXiaoYuanPuncher)
--  [@Chorer](https://github.com/Chorer)
-- [why20hh/WoZaiXiaoYuan-SVTCC](why20hh/WoZaiXiaoYuan-SVTCC)，健康打卡脚本参考了其代码。
-- [@LeslieLeung](https://github.com/LeslieLeung) ，贡献了对多种通知方式（Serverchan-Turbo、PushPlus、Bark）的支持
 
+- [@Chorer](https://github.com/Chorer)
+
+- [why20hh/WoZaiXiaoYuan-SVTCC](why20hh/WoZaiXiaoYuan-SVTCC)，健康打卡脚本参考了其代码。
+
+- [@LeslieLeung](https://github.com/LeslieLeung) ，贡献了对多种通知方式（Serverchan-Turbo、PushPlus、Bark）的支持。
 ## 声明
 
-- 本项目仅供编程学习/个人使用，请遵守Apache-2.0 License开源项目授权协议
-- 请在国家法律法规和校方相关原则下使用
-- 开发者不对任何下载者和使用者的任何行为负责
-- 无任何后门，也不获取、存储任何信息
+- 本项目仅供编程学习/个人使用，请遵守Apache-2.0 License开源项目授权协议.
+
+- 请在国家法律法规和校方相关原则下使用。
+
+- 开发者不对任何下载者和使用者的任何行为负责。
+
+- 程序使用的所有信息均利用 Github 的 [Secrets](https://docs.github.com/cn/actions/reference/encrypted-secrets) 加密储存。
 
