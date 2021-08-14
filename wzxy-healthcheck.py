@@ -53,10 +53,10 @@ class WoZaiXiaoYuanPuncher:
         if not os.path.exists('.cache'):
             print("正在创建cache储存目录与文件...")
             os.mkdir('.cache')
-            data = {"jwsession": jwsession}
+            data = {"jwsession":jwsession}
         elif not os.path.exists('.cache/cache.json'):
             print("正在创建cache文件...")
-            data = {"jwsession": jwsession}
+            data = {"jwsession":jwsession}
         # 如果找到cache,读取cache并更新jwsession
         else:
             print("找到cache文件，正在更新cache中的jwsession...")
@@ -66,8 +66,7 @@ class WoZaiXiaoYuanPuncher:
         utils.processJson(".cache/cache.json").write(data)
         self.jwsession = data['jwsession']
 
-        # 获取JWSESSION
-
+    # 获取JWSESSION
     def getJwsession(self):
         if not self.jwsession:  # 读取cache中的配置文件
             data = utils.processJson(".cache/cache.json").read()

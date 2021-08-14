@@ -32,7 +32,7 @@ class WoZaiXiaoYuanPuncher:
 
     # 登录
     def login(self):
-        username,password = str(os.environ['WZXY_USERNAME']),str(os.environ['WZXY_PASSWORD'])
+        username, password = str(os.environ['WZXY_USERNAME']), str(os.environ['WZXY_PASSWORD'])
         url = f'{self.loginUrl}?username={username}&password={password}' 
         self.session = requests.session()
         # 登录
@@ -70,7 +70,7 @@ class WoZaiXiaoYuanPuncher:
     
     # 获取JWSESSION
     def getJwsession(self):
-        if not self.jwsession: #读取cache中的配置文件
+        if not self.jwsession:  # 读取cache中的配置文件
             data = utils.processJson(".cache/cache.json").read()
             self.jwsession = data['jwsession']  
         return self.jwsession
@@ -218,6 +218,7 @@ class WoZaiXiaoYuanPuncher:
             req = "{}/{}/{}".format(notifyToken, "⏰ 我在校园打卡（日检日报）结果通知", notifyResult)
             requests.get(req)
             print("消息经bark推送成功")
+
 
 if __name__ == '__main__':
     # 找不到cache，登录+打卡
