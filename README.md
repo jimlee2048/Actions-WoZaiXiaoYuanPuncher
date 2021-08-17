@@ -212,11 +212,12 @@
 
 - [zimin9/WoZaiXiaoYuanPuncher](https://github.com/zimin9/WoZaiXiaoYuanPuncher)
 
-- [@Chorer](https://github.com/Chorer)
+- [Chorer/WoZaiXiaoYuanPuncher-cloudFunction](https://github.com/Chorer/WoZaiXiaoYuanPuncher-cloudFunction)
 
-- [why20hh/WoZaiXiaoYuan-SVTCC](why20hh/WoZaiXiaoYuan-SVTCC)，健康打卡脚本参考了其代码。
+- [why20hh/WoZaiXiaoYuan-SVTCC](https://github.com/why20hh/WoZaiXiaoYuan-SVTCC)，健康打卡脚本参考了其代码。
 
 - [@LeslieLeung](https://github.com/LeslieLeung) ，贡献了对多种通知方式（Serverchan-Turbo、PushPlus、Bark）的支持。
+
 ## 声明
 
 - 本项目仅供编程学习/个人使用，请遵守Apache-2.0 License开源项目授权协议.
