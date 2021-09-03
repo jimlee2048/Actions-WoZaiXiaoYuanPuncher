@@ -38,6 +38,7 @@ jobs:
         SCT_KEY: ${{secrets.SCT_KEY}}
         BARK_TOKEN: ${{secrets.BARK_TOKEN}}
         PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
+        MIAO_CODE : ${{secrets.MIAO_CODE}}
         WZXY_USERNAME: ${{secrets.USERNAME}}
         WZXY_PASSWORD: ${{secrets.PASSWORD}}
         WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}

@@ -53,10 +53,10 @@ class WoZaiXiaoYuanPuncher:
         if not os.path.exists('.cache'):
             print("正在创建cache储存目录与文件...")
             os.mkdir('.cache')
-            data = {"jwsession":jwsession}
+            data = {"jwsession": jwsession}
         elif not os.path.exists('.cache/cache.json'):
             print("正在创建cache文件...")
-            data = {"jwsession":jwsession}
+            data = {"jwsession": jwsession}
         # 如果找到cache,读取cache并更新jwsession
         else:
             print("找到cache文件，正在更新cache中的jwsession...")
@@ -169,6 +169,14 @@ class WoZaiXiaoYuanPuncher:
             req = "{}/{}/{}".format(notifyToken, "⏰ 我在校园打卡（健康打卡）结果通知", notifyResult)
             requests.get(req)
             print("消息经bark推送成功")
+        if os.environ.get("MIAO_CODE"):
+            baseurl = "https://miaotixing.com/trigger"
+            body = {
+                "id": os.environ['MIAO_CODE'],
+                "text": "打卡项目：健康打卡\n\n打卡情况：{}\n\n打卡时间：{}".format(notifyResult, notifyTime)
+            }
+            requests.post(baseurl, data=body)
+            print("消息经喵推送推送成功")
 
 
 if __name__ == '__main__':

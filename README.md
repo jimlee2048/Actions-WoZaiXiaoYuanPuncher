@@ -3,6 +3,8 @@
 
 基于原仓库中 [@Chorer](https://github.com/Chorer) 贡献的腾讯云函数版脚本修改。
 
+- **2021.09.03 新增** 支持新的通知方式（喵推送）
+
 - **2021.08.04 新增** 支持多种通知方式（Serverchan-Turbo、PushPlus、Bark）
 
   > 🎉 感谢 [@LeslieLeung](https://github.com/LeslieLeung) 的贡献！
@@ -59,6 +61,7 @@
 
   - `PUSHPLUS_TOKEN`（可选）：填写自己 [PushPlus](https://www.pushplus.plus/) 的 token，用于 PushPlus 推送打卡结果的通知。
 
+  - `MIAO_CODE` （可选）：填写 [喵提醒](https://miaotixing.com/) 的喵码，需要先创建提醒获取，具体见喵推送公众号，用于 喵提醒 推送打卡结果的通知。
   > **推送通知的补充说明**
   >
   > 目前支持三种推送方式（PushPlus、Serverchan-Turbo、Bark）：
@@ -208,16 +211,20 @@
 >
 > - 点击搜索栏右边的 `...` 按钮，然后点击 `Disable workflow`。
 
+## 其他需求
+
+- [多账号](https://github.com/jimlee2002/WoZaiXiaoYuanPuncher-Actions/issues/4)
+- 添加新推送通知渠道：请提issue或参考代码自行实现。
+
 ## 参考/致谢
 
 - [zimin9/WoZaiXiaoYuanPuncher](https://github.com/zimin9/WoZaiXiaoYuanPuncher)
 
 - [Chorer/WoZaiXiaoYuanPuncher-cloudFunction](https://github.com/Chorer/WoZaiXiaoYuanPuncher-cloudFunction)
 
-- [why20hh/WoZaiXiaoYuan-SVTCC](https://github.com/why20hh/WoZaiXiaoYuan-SVTCC)，健康打卡脚本参考了其代码。
+- [why20hh/WoZaiXiaoYuan-SVTCC](https://github.com/why20hh/WoZaiXiaoYuan-SVTCC) ，健康打卡脚本参考了其代码。
 
 - [@LeslieLeung](https://github.com/LeslieLeung) ，贡献了对多种通知方式（Serverchan-Turbo、PushPlus、Bark）的支持。
-
 ## 声明
 
 - 本项目仅供编程学习/个人使用，请遵守Apache-2.0 License开源项目授权协议.
