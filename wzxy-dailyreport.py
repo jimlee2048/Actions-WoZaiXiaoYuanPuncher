@@ -218,6 +218,14 @@ class WoZaiXiaoYuanPuncher:
             req = "{}/{}/{}".format(notifyToken, "⏰ 我在校园打卡（日检日报）结果通知", notifyResult)
             requests.get(req)
             print("消息经bark推送成功")
+        if os.environ.get("MIAO_CODE"):
+            baseurl = "https://miaotixing.com/trigger"
+            body = {
+                "id": os.environ['MIAO_CODE'],
+                "text": "打卡项目：日检日报\n\n打卡情况：{}\n\n打卡时段：{}\n\n打卡时间：{}".format(notifyResult, notifySeq, notifyTime)
+            }
+            requests.post(baseurl, data=body)
+            print("消息经喵推送推送成功")
 
 
 if __name__ == '__main__':
