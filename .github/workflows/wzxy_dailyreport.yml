@@ -29,7 +29,7 @@ on:
 jobs:
   USER_01:
     runs-on: ubuntu-latest
-    environment: WZXY_CONFIG_01 ## 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
+    environment: WZXY_CONFIG_01 # 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
@@ -49,10 +49,10 @@ jobs:
     - name: Run script
       run: python wzxy-dailyreport.py
   
-  ## 多账户配置示例，请复制后取消注释再修改，粘贴时注意缩进
-  # USER_02:    ## Jobs名，注意修改序号
+  # 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
+  # USER_02:    # Jobs名，注意修改序号
   #   runs-on: ubuntu-latest
-  #   environment:           ## 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
+  #   environment:           # 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
   #   steps:
   #   - uses: actions/checkout@v2
   #   - name: Set up Python 3.9
