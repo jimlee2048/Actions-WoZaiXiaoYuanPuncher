@@ -3,6 +3,10 @@
 
 基于原仓库中 [@Chorer](https://github.com/Chorer) 贡献的腾讯云函数版脚本修改。
 
+- **2021.09.19 新增** 支持多账户
+  
+  > 对原来的配置文件进行了修改，请旧有用户 Fetch 最新代码后参考新的文档重新配置所有 Secrect。
+
 - 支持多种通知方式
 
   - **2021.09.03 新增** 支持 喵推送
@@ -221,6 +225,7 @@
 - [why20hh/WoZaiXiaoYuan-SVTCC](https://github.com/why20hh/WoZaiXiaoYuan-SVTCC) ，健康打卡脚本参考了其代码。
 
 - [@LeslieLeung](https://github.com/LeslieLeung) ，贡献了对多种通知方式（Serverchan-Turbo、PushPlus、Bark）的支持。
+
 ## 声明
 
 - 本项目仅供编程学习/个人使用，请遵守Apache-2.0 License开源项目授权协议.
