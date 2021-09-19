@@ -9,23 +9,6 @@ on:
   # Github Action 使用世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
     - cron:  '30 16 * * *' # 默认在每天 UTC 16:30 （北京时间 0:30）执行
 
-  env:
-    SCT_KEY: ${{secrets.SCT_KEY}}
-    BARK_TOKEN: ${{secrets.BARK_TOKEN}}
-    PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
-    MIAO_CODE: ${{secrets.MIAO_CODE}}
-    WZXY_USERNAME: ${{secrets.USERNAME}}
-    WZXY_PASSWORD: ${{secrets.PASSWORD}}
-    WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
-    WZXY_LATITUDE: ${{secrets.LATITUDE}}
-    WZXY_LONGITUDE: ${{secrets.LONGITUDE}}
-    WZXY_COUNTRY: ${{secrets.COUNTRY}}
-    WZXY_CITY: ${{secrets.CITY}}
-    WZXY_DISTRICT: ${{secrets.DISTRICT}}
-    WZXY_PROVINCE: ${{secrets.PROVINCE}}
-    WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
-    WZXY_STREET: ${{secrets.STREET}}
-
 jobs:
   USER_01:
     runs-on: ubuntu-latest
@@ -48,12 +31,28 @@ jobs:
         key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
         restore-keys: ${{ secrets.CACHE_NAME }}-
     - name: Run script
+      env:
+        SCT_KEY: ${{secrets.SCT_KEY}}
+        BARK_TOKEN: ${{secrets.BARK_TOKEN}}
+        PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
+        MIAO_CODE: ${{secrets.MIAO_CODE}}
+        WZXY_USERNAME: ${{secrets.USERNAME}}
+        WZXY_PASSWORD: ${{secrets.PASSWORD}}
+        WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
+        WZXY_LATITUDE: ${{secrets.LATITUDE}}
+        WZXY_LONGITUDE: ${{secrets.LONGITUDE}}
+        WZXY_COUNTRY: ${{secrets.COUNTRY}}
+        WZXY_CITY: ${{secrets.CITY}}
+        WZXY_DISTRICT: ${{secrets.DISTRICT}}
+        WZXY_PROVINCE: ${{secrets.PROVINCE}}
+        WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
+        WZXY_STREET: ${{secrets.STREET}}
       run: python wzxy-healthcheck.py
 
-  # 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
-  # USER_02:    # Jobs名，注意修改序号
+  ## 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
+  # USER_02:    ## Jobs名，注意修改序号
   #   runs-on: ubuntu-latest
-  #   environment:           # 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
+  #   environment:           ## 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
   #   steps:
   #   - uses: actions/checkout@v2
   #   - name: Set up Python 3.9
@@ -71,4 +70,20 @@ jobs:
   #       key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
   #       restore-keys: ${{ secrets.CACHE_NAME }}-
   #   - name: Run script
+  #     env:
+  #       SCT_KEY: ${{secrets.SCT_KEY}}
+  #       BARK_TOKEN: ${{secrets.BARK_TOKEN}}
+  #       PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
+  #       MIAO_CODE: ${{secrets.MIAO_CODE}}
+  #       WZXY_USERNAME: ${{secrets.USERNAME}}
+  #       WZXY_PASSWORD: ${{secrets.PASSWORD}}
+  #       WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
+  #       WZXY_LATITUDE: ${{secrets.LATITUDE}}
+  #       WZXY_LONGITUDE: ${{secrets.LONGITUDE}}
+  #       WZXY_COUNTRY: ${{secrets.COUNTRY}}
+  #       WZXY_CITY: ${{secrets.CITY}}
+  #       WZXY_DISTRICT: ${{secrets.DISTRICT}}
+  #       WZXY_PROVINCE: ${{secrets.PROVINCE}}
+  #       WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
+  #       WZXY_STREET: ${{secrets.STREET}}    
   #     run: python wzxy-dailyreport.py       
