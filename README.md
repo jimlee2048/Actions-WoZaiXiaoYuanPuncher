@@ -3,7 +3,15 @@
 
 基于原仓库中 [@Chorer](https://github.com/Chorer) 贡献的腾讯云函数版脚本修改。
 
-- **2021.08.04 新增** 支持多种通知方式（Serverchan-Turbo、PushPlus、Bark）
+- **2021.09.19 新增** 支持多账户
+  
+  > 对原来的配置文件进行了修改，请旧有用户 Fetch 最新代码后参考新的文档重新配置所有 Secrect。
+
+- 支持多种通知方式
+
+  - **2021.09.03 新增** 支持 喵推送
+  
+  - **2021.08.04 新增** 支持多种通知方式（Serverchan-Turbo、PushPlus、Bark）
 
   > 🎉 感谢 [@LeslieLeung](https://github.com/LeslieLeung) 的贡献！
 
@@ -39,11 +47,16 @@
 
 ### Step2 配置打卡参数
 
-![](https://i.loli.net/2021/08/07/SEOhnMIevTAF6ou.png)
+> 如需配置多用户，请参考文末“其他需求”中的介绍。
+
 
 - 在新建的仓库页面，点击选项 `Settings`，进入项目仓库设置页面。
 
-- 在左方侧边栏点击页面上方选项 `Secrects`，点击右上方按钮 `New repository secret`, 新建以下 Secrect，并填写对应 Value 值：
+- 在左方侧边栏点击选项 `Environments`，点击右上角按钮 `New environment` 创建用于存放用户配置的 Environment `WZXY_CONFIG_01`。
+
+![](https://i.loli.net/2021/08/07/jPYLRtgVk27KAUl.png)
+
+- 进入新建的 Environment ，在 “Environment secrets” 一栏中点击 `Add Secrect` 按钮，新建以下 Secrect，并填写对应 Value 值：
 
   - `USERNAME`：我在校园账号的用户名。
 
@@ -51,14 +64,38 @@
 
   - `CACHE_NAME`：值任意，用于储存 jwsession 的缓存文件的前缀名。为避免信息泄露，建议使用包含数字与大小写英文的无序字符串，且长度在32位以上（可以尝试键盘乱打 or 使用生成器）。
 
+    > 请注意：配置多账户打卡时，不同环境中的`CACHE_NAME`不能相同！！
+
   - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.4`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secrect，脚本将使用默认值`36.0~36.5`。
-
+  
+  - `LATITUDE`：打卡该项目时所提交位置信息的纬度，对应抓包信息中的 “latitude”。
+  
+  - `LONGITUDE`：打卡该项目时所提交位置信息的经度，对应抓包信息中的 “longitude”。
+  
+  - `COUNTRY`：打卡该项目时所提交位置信息的经度，对应抓包信息中的 “country”。
+  
+  - `CITY`：打卡该项目时所提交位置信息的市，对应抓包信息中的 “city”。
+  
+  - `DISTRICT`：打卡该项目时所提交位置信息的区，对应抓包信息中的 “district”。
+  
+  - `PROVINCE`：打卡该项目时所提交位置信息的省，对应抓包信息中的 “province”。
+  
+  - `TOWNSHIP`：打卡该项目时所提交位置信息的街道，对应抓包信息中的 “township” 。
+  
+  - `STREET`：Value 值填写 打卡该项目时所提交位置信息的路，对应抓包信息中的 “street”。
+  
+  > - 由于不同的学校情况与实际需求，以上数据需要自行抓取。
+  >
+  > - 出于学校要求，两个打卡项目所需提交的地理位置信息可能不一样（比如“日检日报”在校打卡，“健康打卡”在家打卡），可以分别抓取两个打卡项目的提交数据，据此根据打卡项目分别配置两个 Environment 的 Secrects。
+  
   - `SCT_KEY`（可选）：填写自己 [Serverchan-Turbo](https://sct.ftqq.com/sendkey) 的 SendKey，用于 Serverchan-Turbo 推送打卡结果的通知。
-
+  
   - `BARK_TOKEN` （可选）：填写自己 Bark 的推送 URL，建议从 Bark 客户端复制，形如`http://yourdomain.name/thisisatoken`，用于 Bark 推送打卡结果的通知。
-
+  
   - `PUSHPLUS_TOKEN`（可选）：填写自己 [PushPlus](https://www.pushplus.plus/) 的 token，用于 PushPlus 推送打卡结果的通知。
-
+  
+  - `MIAO_CODE` （可选）：填写 [喵提醒](https://miaotixing.com/) 的喵码，需要先创建提醒获取，具体见喵推送公众号，用于 喵提醒 推送打卡结果的通知。
+  
   > **推送通知的补充说明**
   >
   > 目前支持三种推送方式（PushPlus、Serverchan-Turbo、Bark）：
@@ -68,43 +105,6 @@
   > - 你也可以同时创建对应不同推送方式的多个 Secrect，这将同时推送所对应的多个渠道。
   >
   > - 如不创建这些推送方式对应的 Secrect，则不会推送打卡结果通知。
-
-
-![](https://i.loli.net/2021/08/07/zmQnwv64SUbo8YZ.png)
-
-- 在左方侧边栏点击选项 `Environments`，点击右上角按钮 `New environment` 创建存放打卡地理位置数据的 Environment。
-
-  - `WZXY_POSITION_DR`（打卡项目“日检日报”，对应脚本“`wzxy-dailyreport.py`”，对应 Workflow “`WZXY_DailyReport`”）。
-
-  - `WZXY_POSITION_HC`（打卡项目“健康打卡”，对应脚本`wzxy-healthcheck.py`，对应 Workflow “`WZXY_HealthCheck`”）。
-
-  > 如果你无需用到其中任一脚本，你不必创建该脚本的对应环境。
-  >
-  > 同时，你还需要关闭该脚本对应的 Workflow，详见 Step4。
-
-![](https://i.loli.net/2021/08/07/jPYLRtgVk27KAUl.png)
-
-- **分别**进入这两个新建的 Environment ，在 “Environment secrets” 一栏中点击 `Add Secrect` 按钮，新建以下 Secrect，并填写对应 Value 值：
-
-  - `LATITUDE`：打卡该项目时所提交位置信息的纬度，对应抓包信息中的 “latitude”。
-
-  - `LONGITUDE`：打卡该项目时所提交位置信息的经度，对应抓包信息中的 “longitude”。
-
-  - `COUNTRY`：打卡该项目时所提交位置信息的经度，对应抓包信息中的 “country”。
-
-  - `CITY`：打卡该项目时所提交位置信息的市，对应抓包信息中的 “city”。
-
-  - `DISTRICT`：打卡该项目时所提交位置信息的区，对应抓包信息中的 “district”。
-
-  - `PROVINCE`：打卡该项目时所提交位置信息的省，对应抓包信息中的 “province”。
-
-  - `TOWNSHIP`：打卡该项目时所提交位置信息的街道，对应抓包信息中的 “township” 。
-
-  - `STREET`：Value 值填写 打卡该项目时所提交位置信息的路，对应抓包信息中的 “street”。
-
-  > - 由于不同的学校情况与实际需求，以上数据需要自行抓取。
-  >
-  > - 出于学校要求，两个打卡项目所需提交的地理位置信息可能不一样（比如“日检日报”在校打卡，“健康打卡”在家打卡），可以分别抓取两个打卡项目的提交数据，据此根据打卡项目分别配置两个 Environment 的 Secrects。
 
 <details>
 <summary>抓包大致方法</summary>
@@ -133,16 +133,14 @@
 脚本的触发运行时间由项目仓库内`.github/workflows`的两个 Workflow 文件配置：
 
 - `wzxy_dailyreport.yml`
-
   - 对应脚本“`wzxy-dailyreport.py`”（打卡项目“日检日报”）。
-
+  
   - 默认在每天北京时间 0:30 执行。
-
+  
 - `wzxy_healthcheck.yml`
-
-  - 对应脚本“`wzxy-healthcheck.py`”（打卡项目“健康打卡”）。
-
-  - 默认在每天北京时间 7:30 和 20:30 执行。
+- 对应脚本“`wzxy-healthcheck.py`”（打卡项目“健康打卡”）。
+  
+- 默认在每天北京时间 7:30 和 20:30 执行。
 
 如果需要修改脚本的运行时间：
 
@@ -169,6 +167,9 @@
     > - **注意：** Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
 
 - 修改完成后，点击页面右侧绿色按钮 `Start commit`，然后点击绿色按钮 `Commit changes`。
+
+  > **注意：**出于开发者个人使用需要，`wzxy_healthcheck.yml`里`environment`参数默认为`environment: WZXY_CONFIG_02`；如果你严格按照上述教程操作且没有多账户/多地点打卡需要，请找到该行代码并将02改为01。
+  > 关于多账户，请参考文末“其他需求”
 
 ### Step4 手动测试脚本运行
 
@@ -208,13 +209,20 @@
 >
 > - 点击搜索栏右边的 `...` 按钮，然后点击 `Disable workflow`。
 
+## 其他需求
+
+- 配置多账户/多地点打卡：
+  - 参照 Step 2，新建并配置另一环境；环境名建议保持`WZXY_CONFIG_**`的格式。
+  - 参考 Step 3，打开打卡脚本所对应的 workflow 文件，复制末尾的多账户配置示例代码，注销注释后填写另一配置的环境名即可。
+- 添加新推送通知渠道：请提 issue 或参考代码自行实现。
+
 ## 参考/致谢
 
 - [zimin9/WoZaiXiaoYuanPuncher](https://github.com/zimin9/WoZaiXiaoYuanPuncher)
 
 - [Chorer/WoZaiXiaoYuanPuncher-cloudFunction](https://github.com/Chorer/WoZaiXiaoYuanPuncher-cloudFunction)
 
-- [why20hh/WoZaiXiaoYuan-SVTCC](https://github.com/why20hh/WoZaiXiaoYuan-SVTCC)，健康打卡脚本参考了其代码。
+- [why20hh/WoZaiXiaoYuan-SVTCC](https://github.com/why20hh/WoZaiXiaoYuan-SVTCC) ，健康打卡脚本参考了其代码。
 
 - [@LeslieLeung](https://github.com/LeslieLeung) ，贡献了对多种通知方式（Serverchan-Turbo、PushPlus、Bark）的支持。
 
