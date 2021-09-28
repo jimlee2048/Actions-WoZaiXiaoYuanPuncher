@@ -18,7 +18,7 @@ class WoZaiXiaoYuanPuncher:
         self.header = {
             "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
-            "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat",
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.13(0x18000d32) NetType/WIFI Language/zh_CN miniProgram",
             "Content-Type": "application/json;charset=UTF-8",
             "Content-Length": "2",
             "Host": "gw.wozaixiaoyuan.com",
@@ -61,8 +61,7 @@ class WoZaiXiaoYuanPuncher:
         else:
             print("找到cache文件，正在更新cache中的jwsession...")
             data = utils.processJson('.cache/cache.json').read()
-            for item in data:
-                item['jwsession'] = jwsession
+            data['jwsession'] = jwsession
         utils.processJson(".cache/cache.json").write(data)
         self.jwsession = data['jwsession']
 
