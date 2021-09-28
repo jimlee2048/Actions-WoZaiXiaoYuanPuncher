@@ -18,7 +18,7 @@ class WoZaiXiaoYuanPuncher:
         self.header = {
             "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
-            "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat",
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.13(0x18000d32) NetType/WIFI Language/zh_CN miniProgram",
             "Content-Type": "application/json;charset=UTF-8",
             "Content-Length": "2",
             "Host": "gw.wozaixiaoyuan.com",
@@ -61,8 +61,7 @@ class WoZaiXiaoYuanPuncher:
         else:
             print("找到cache文件，正在更新cache中的jwsession...")
             data = utils.processJson('.cache/cache.json').read()
-            for item in data:
-                item['jwsession'] = jwsession
+            data['jwsession'] = jwsession
         utils.processJson(".cache/cache.json").write(data)
         self.jwsession = data['jwsession']
 
@@ -95,23 +94,25 @@ class WoZaiXiaoYuanPuncher:
         self.session = requests.session()
         response = self.session.post(url=url, data=data, headers=self.header)
         response = json.loads(response.text)
-        print(response)
         # 打卡情况        
         # 如果 jwsession 无效，则重新 登录 + 打卡
         if response['code'] == -10:
+            print(response)
             print('jwsession 无效，将尝试使用账号信息重新登录')
             self.status_code = 4
             loginStatus = self.login()
             if loginStatus:
                 self.doPunchIn()
             else:
+                print(response)
                 print("重新登录失败，请检查账号信息")
         elif response["code"] == 0:
             self.status_code = 1
             print("打卡成功")
         elif response['code'] == 1:
-            self.status_code = 3
+            print(response)
             print("打卡失败：今日健康打卡已结束")
+            self.status_code = 3
         else:
             print(response)
             print("打卡失败")
