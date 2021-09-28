@@ -94,23 +94,25 @@ class WoZaiXiaoYuanPuncher:
         self.session = requests.session()
         response = self.session.post(url=url, data=data, headers=self.header)
         response = json.loads(response.text)
-        print(response)
         # 打卡情况        
         # 如果 jwsession 无效，则重新 登录 + 打卡
         if response['code'] == -10:
+            print(response)
             print('jwsession 无效，将尝试使用账号信息重新登录')
             self.status_code = 4
             loginStatus = self.login()
             if loginStatus:
                 self.doPunchIn()
             else:
+                print(response)
                 print("重新登录失败，请检查账号信息")
         elif response["code"] == 0:
             self.status_code = 1
             print("打卡成功")
         elif response['code'] == 1:
-            self.status_code = 3
+            print(response)
             print("打卡失败：今日健康打卡已结束")
+            self.status_code = 3
         else:
             print(response)
             print("打卡失败")

@@ -83,15 +83,16 @@ class WoZaiXiaoYuanPuncher:
         self.session = requests.session()
         response = self.session.post(url=url, data=self.body, headers=self.header)
         res = json.loads(response.text)
-        print(res)
         # 如果 jwsession 无效，则重新 登录 + 打卡
         if res['code'] == -10:
+            print(res)
             print('jwsession 无效，将尝试使用账号信息重新登录')
             self.status_code = 4
             loginStatus = self.login()
             if loginStatus:
                 self.PunchIn()
             else:
+                print(res)
                 print("重新登录失败，请检查账号信息")     
         elif res['code'] == 0:                    
             # 标志时段是否有效
