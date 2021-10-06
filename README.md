@@ -106,7 +106,7 @@
   
   - `SCT_KEY`（可选）：填写自己 [Serverchan-Turbo](https://sct.ftqq.com/sendkey) 的 SendKey，用于 Serverchan-Turbo 推送打卡结果的通知。
   
-  - `BARK_TOKEN` （可选）：填写自己 Bark 的推送 URL，建议从 Bark 客户端复制，形如`http://yourdomain.name/thisisatoken`，用于 Bark 推送打卡结果的通知。
+  - `BARK_TOKEN` （可选）：填写自己 Bark 的推送 URL，建议从 Bark 客户端复制，形如`http://yourdomain.name/thisisatoken`，用于 Bark 推送打卡结果的通知。请注意不要以斜杠结尾。
   
   - `PUSHPLUS_TOKEN`（可选）：填写自己 [PushPlus](https://www.pushplus.plus/) 的 token，用于 PushPlus 推送打卡结果的通知。
   
