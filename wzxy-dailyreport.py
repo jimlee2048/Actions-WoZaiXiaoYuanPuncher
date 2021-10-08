@@ -2,8 +2,15 @@
 import requests
 import json
 import os
+import time
+import hmac
+import hashlib
+import base64
 import utils
+import urllib
+import urllib.parse
 from urllib.parse import urlencode
+from urllib3.util import Retry
 
 
 class WoZaiXiaoYuanPuncher:
@@ -55,10 +62,10 @@ class WoZaiXiaoYuanPuncher:
         if not os.path.exists('.cache'): 
             print("正在创建cache储存目录与文件...")
             os.mkdir('.cache')
-            data = {"jwsession":jwsession}
+            data = {"jwsession": jwsession}
         elif not os.path.exists('.cache/cache.json'):
             print("正在创建cache文件...")
-            data = {"jwsession":jwsession}
+            data = {"jwsession": jwsession}
         # 如果找到cache,读取cache并更新jwsession
         else:
             print("找到cache文件，正在更新cache中的jwsession...")
@@ -213,6 +220,28 @@ class WoZaiXiaoYuanPuncher:
             }
             requests.post(url, data=msg)
             print("消息经pushplus推送成功")
+        if os.environ.get('DD_BOT_ACCESS_TOKEN'):
+            # 钉钉推送
+            DD_BOT_ACCESS_TOKEN = os.environ["DD_BOT_ACCESS_TOKEN"]
+            DD_BOT_SECRET = os.environ["DD_BOT_SECRET"]
+            timestamp = str(round(time.time() * 1000))  # 时间戳
+            secret_enc = DD_BOT_SECRET.encode('utf-8')
+            string_to_sign = '{}\n{}'.format(timestamp, DD_BOT_SECRET)
+            string_to_sign_enc = string_to_sign.encode('utf-8')
+            hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()
+            sign = urllib.parse.quote_plus(base64.b64encode(hmac_code))  # 签名
+            print('开始使用 钉钉机器人 推送消息...', end='')
+            url = f'https://oapi.dingtalk.com/robot/send?access_token={DD_BOT_ACCESS_TOKEN}&timestamp={timestamp}&sign={sign}'
+            headers = {'Content-Type': 'application/json;charset=utf-8'}
+            data = {
+                'msgtype': 'text',
+                'text': {'content': f'⏰ 我在校园打卡结果通知\n---------\n打卡项目：日检日报\n\n打卡情况：{notifyResult}\n\n打卡时间: {notifyTime}'}
+            }
+            response = requests.post(url=url, data=json.dumps(data), headers=headers, timeout=15).json()
+            if not response['errcode']:
+                print('消息经钉钉机器人推送成功！')
+            else:
+                print('消息经钉钉机器人推送失败！')
         if os.environ.get('BARK_TOKEN'):
             # bark 推送
             notifyToken = os.environ['BARK_TOKEN']

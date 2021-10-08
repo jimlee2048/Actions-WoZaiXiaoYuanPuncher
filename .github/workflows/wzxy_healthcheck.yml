@@ -32,9 +32,9 @@ jobs:
         restore-keys: ${{ secrets.CACHE_NAME }}-
     - name: Run script
       env:
-        SCT_KEY: ${{secrets.SCT_KEY}}
         DD_BOT_ACCESS_TOKEN: ${{secrets.DD_BOT_ACCESS_TOKEN}}
         DD_BOT_SECRET: ${{secrets.DD_BOT_SECRET}}
+        SCT_KEY: ${{secrets.SCT_KEY}}
         BARK_TOKEN: ${{secrets.BARK_TOKEN}}
         PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
         MIAO_CODE: ${{secrets.MIAO_CODE}}
