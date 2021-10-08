@@ -1,17 +1,26 @@
 # WoZaiXiaoYuanPuncher-Actions
+
 我在校园自动打卡程序：[zimin9/WoZaiXiaoYuanPuncher](https://github.com/zimin9/WoZaiXiaoYuanPuncher) 的 Github Action 版。
 
 基于原仓库中 [@Chorer](https://github.com/Chorer) 贡献的腾讯云函数版脚本修改。
 
+如果在执行脚本时，总是遇到提示`用户或密码错误，还可尝试*次`，导致无法正常打卡的问题，请参考文末[常见问题](#常见问题)。
+
 ## 更新日志
 
-- 2021.09.19 新增 支持多账户
+- 2021.10.8  新增 支持钉钉机器人推送.
+
+  > 🎉 感谢 [@baifan97](https://github.com/baifan97) 的贡献！
+
+- 2021.09.28 修复无法更新 jwsession 的问题。
+
+- 2021.09.19 新增 支持多账户。
   
-  **⚠重要提醒：** 该版本对配置文件中调用配置的默认参数进行了修改，请旧有用户 Fetch 最新代码后，删除原有的 Secrect 和 Environment，并参考新的文档重新配置所有参数。
+  **⚠重要提醒：** 该版本对配置文件中调用配置的默认参数进行了修改，请旧有用户 Fetch 最新代码后，删除原有的 Secret 和 Environment，并参考新的文档重新配置所有参数。
 
-- 2021.09.03 新增 支持喵推送
+- 2021.09.03 新增 支持喵推送。
 
-- 2021.08.04 新增 支持多种通知方式（Serverchan-Turbo、PushPlus、Bark）
+- 2021.08.04 新增 支持多种通知方式（Serverchan-Turbo、PushPlus、Bark）。
 
   > 🎉 感谢 [@LeslieLeung](https://github.com/LeslieLeung) 的贡献！
 
@@ -29,7 +38,7 @@
 
 - 利用 [actions/cache@v2](https://github.com/marketplace/actions/cache) 实现缓存 jwsession，避免频繁登录可能导致的账号登录问题。
 
-- 利用 Github Action 的 [Secrets](https://docs.github.com/cn/actions/reference/encrypted-secrets) 加密储存所有配置信息，任何人都无法从项目仓库中直接读取这些敏感信息。
+- 利用 Github Action 的 [Secrets](https://docs.github.com/cn/actions/reference/encrypted-Secrets) 加密储存所有配置信息，任何人都无法从项目仓库中直接读取这些敏感信息。
 
 - 支持多用户/多地点打卡，利用 Github Action 的 [Environment](https://docs.github.com/cn/actions/reference/environments) 实现多配置文件的储存。
 
@@ -40,6 +49,13 @@
 欢迎 Issue & Pull request ！
 
 ## 使用指南
+
+### Step0 准备工作
+
+- 对小程序进行抓包，抓取自己的打卡数据，请参见文末[抓包教程](#抓包教程)。
+- 在小程序 我的-设置 中修改自己的密码。
+  - 注意要6-12位
+  - 修改完成后请勿马上重新登陆
 
 ### Step1 Fork本仓库
 
@@ -60,7 +76,7 @@
 
 ![](https://i.loli.net/2021/08/07/jPYLRtgVk27KAUl.png)
 
-- 进入新建的 Environment ，在 “Environment secrets” 一栏中点击 `Add Secrect` 按钮，新建以下 Secrect，并填写对应 Value 值：
+- 进入新建的 Environment ，在 “Environment Secrets” 一栏中点击 `Add Secret` 按钮，新建以下 Secret，并填写对应 Value 值：
 
   - `USERNAME`：我在校园账号的用户名。
 
@@ -70,7 +86,7 @@
 
     > 请注意：配置多账户打卡时，不同环境中的`CACHE_NAME`不能相同！！
 
-  - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.4`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secrect，脚本将使用默认值`36.0~36.5`。
+  - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.4`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secret，脚本将使用默认值`36.0~36.5`。
   
   - `LATITUDE`：打卡该项目时所提交位置信息的纬度，对应抓包信息中的 “latitude”。
   
@@ -90,61 +106,47 @@
   
   > - 由于不同的学校情况与实际需求，以上数据需要自行抓取。
   >
-  > - 出于学校要求，两个打卡项目所需提交的地理位置信息可能不一样（比如“日检日报”在校打卡，“健康打卡”在家打卡），可以分别抓取两个打卡项目的提交数据，据此根据打卡项目分别配置两个 Environment 的 Secrects。
+  > - 出于学校要求，两个打卡项目所需提交的地理位置信息可能不一样（比如“日检日报”在校打卡，“健康打卡”在家打卡），可以分别抓取两个打卡项目的提交数据，据此根据打卡项目分别配置两个 Environment 的 Secrets。
   
   - `SCT_KEY`（可选）：填写自己 [Serverchan-Turbo](https://sct.ftqq.com/sendkey) 的 SendKey，用于 Serverchan-Turbo 推送打卡结果的通知。
   
-  - `BARK_TOKEN` （可选）：填写自己 Bark 的推送 URL，建议从 Bark 客户端复制，形如`http://yourdomain.name/thisisatoken`，用于 Bark 推送打卡结果的通知。
+  - `BARK_TOKEN` （可选）：填写自己 Bark 的推送 URL，建议从 Bark 客户端复制，形如`http://yourdomain.name/thisisatoken`，用于 Bark 推送打卡结果的通知。请注意不要以斜杠结尾。
   
   - `PUSHPLUS_TOKEN`（可选）：填写自己 [PushPlus](https://www.pushplus.plus/) 的 token，用于 PushPlus 推送打卡结果的通知。
   
   - `MIAO_CODE` （可选）：填写 [喵提醒](https://miaotixing.com/) 的喵码，需要先创建提醒获取，具体见喵推送公众号，用于 喵提醒 推送打卡结果的通知。
+
+  - `DD_BOT_ACCESS_TOKEN`（可选）：钉钉机器人推送 Token，填写机器人的 Webhook 地址中的 token。只需 https://oapi.dingtalk.com/robot/send?access_token=XXX 等于=符号后面的XXX即可。
+
+  - `DD_BOT_SECRET`（可选）：钉钉机器人推送SECRET。[官方文档](https://developers.dingtalk.com/document/app/custom-robot-access) 
   
+  > 如需配置钉钉机器人，上述的 `DD_BOT_ACCESS_TOKEN` 和 `DD_BOT_SECRET` 两条 Secrect 都需创建。
+
   > **推送通知的补充说明**
   >
-  > 目前支持三种推送方式（PushPlus、Serverchan-Turbo、Bark）：
+  > 目前支持四种推送方式（PushPlus、Serverchan-Turbo、Bark、钉钉机器人）：
   >
-  > - 需要使用哪一种方式推送，创建该方式对应的 Secrect 即可。
+  > - 需要使用哪一种方式推送，创建该方式对应的 Secret 即可。
   >
-  > - 你也可以同时创建对应不同推送方式的多个 Secrect，这将同时推送所对应的多个渠道。
+  > - 你也可以同时创建对应不同推送方式的多个 Secret，这将同时推送所对应的多个渠道。
   >
-  > - 如不创建这些推送方式对应的 Secrect，则不会推送打卡结果通知。
-
-<details>
-<summary>抓包大致方法</summary>
-<a href="https://sm.ms/image/VBrtzGnQEJc5XF4" target="_blank"><img src="https://i.loli.net/2021/08/07/VBrtzGnQEJc5XF4.png" ></a>
-
-- 在电脑上安装配置好 Fiddler。
-
-- 启动微信电脑版和 Fiddler，打开我在校园小程序，先手动打卡一次日检日报/健康打卡。
-
-- 提交打卡信息的同时观察 Fiddler 左侧栏中最新出现的 Host 为 `student.wozaixiaoyuan.com` 的信息（如果打卡的是日检日报，URL 为`/heat/save.json`；健康打卡则为`/health/save.json"`）。
-
-- 双击打开这条信息，然后点击右侧上方的 `WebForms` 一栏，对照显示抓取到的信息填写 Environment Secrects 就可以了。
-
-- Fiddler 配置与抓包操作参考：
-
-  - [Chaney1024/wozaixiaoyuan](Chaney1024/wozaixiaoyuan)
-  
-  - [Duangdi/fuck-wozaixiaoyuan](https://github.com/Duangdi/fuck-wozaixiaoyuan/blob/master/%E4%B8%80%E6%97%A5%E4%B8%89%E6%A3%80%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1.pdf)
-  
-  - [Liuism/xsyu-wzxy-sign](https://github.com/Liuism/xsyu-wzxy-sign)
-
-</details>
+  > - 如不创建这些推送方式对应的 Secret，则不会推送打卡结果通知。
 
 ### Step3 配置脚本运行时间
 
 脚本的触发运行时间由项目仓库内`.github/workflows`的两个 Workflow 文件配置：
 
 - `wzxy_dailyreport.yml`
+
   - 对应脚本“`wzxy-dailyreport.py`”（打卡项目“日检日报”）。
   
   - 默认在每天北京时间 0:30 执行。
   
 - `wzxy_healthcheck.yml`
-- 对应脚本“`wzxy-healthcheck.py`”（打卡项目“健康打卡”）。
+
+  - 对应脚本“`wzxy-healthcheck.py`”（打卡项目“健康打卡”）。
   
-- 默认在每天北京时间 7:30 和 20:30 执行。
+  - 默认在每天北京时间 7:30 和 20:30 执行。
 
 如果需要修改脚本的运行时间：
 
@@ -213,12 +215,45 @@
 >
 > - 点击搜索栏右边的 `...` 按钮，然后点击 `Disable workflow`。
 
-## 其他需求
+## 常见问题
 
-- 配置多账户/多地点打卡：
-  - 参照 Step 2，新建并配置另一环境；环境名建议保持`WZXY_CONFIG_**`的格式。
-  - 参考 Step 3，打开打卡脚本所对应的 workflow 文件，复制末尾的多账户配置示例代码，注销注释后填写另一配置的环境名即可。
-- 添加新推送通知渠道：请提 issue 或参考代码自行实现。
+1. 即便所配置的密码正确，脚本执行时仍然提示`用户名或密码错误，还可尝试*次`？
+   - 在小程序中重新修改密码。
+   - 修改密码后不要马上在小程序上重新登陆。
+   - 更新对应用户配置文件中的 Secret `PASSWORD`，填写新密码。
+   - 再次尝试运行脚本，查看是否正常登陆并获取 jwsession。
+   - 如仍有问题，请在确保配置文件中密码信息正确的后提 issue。
+
+
+2. 如何配置多账户/多地点打卡？
+
+   - 参照 Step 2，新建并配置另一环境；环境名建议保持`WZXY_CONFIG_**`的格式。
+
+   - 参考 Step 3，打开打卡脚本所对应的 workflow 文件，复制末尾的多账户配置示例代码，注销注释后填写另一配置的环境名即可。
+3. 需要其他推送通知渠道？
+   - 请提 issue 或参考代码自行实现。
+4. 其他问题？
+   - 欢迎提 issue。
+
+## 抓包大致方法
+
+![](https://i.loli.net/2021/08/07/VBrtzGnQEJc5XF4.png)
+
+- 在电脑上安装配置好 Fiddler。
+
+- 启动微信电脑版和 Fiddler，打开我在校园小程序，先手动打卡一次日检日报/健康打卡。
+
+- 提交打卡信息的同时观察 Fiddler 左侧栏中最新出现的 Host 为 `student.wozaixiaoyuan.com` 的信息（如果打卡的是日检日报，URL 为`/heat/save.json`；健康打卡则为`/health/save.json"`）。
+
+- 双击打开这条信息，然后点击右侧上方的 `WebForms` 一栏，对照显示抓取到的信息填写 Environment Secrets 就可以了。
+
+- Fiddler 配置与抓包操作参考：
+
+  - [Chaney1024/wozaixiaoyuan](Chaney1024/wozaixiaoyuan)
+  
+  - [Duangdi/fuck-wozaixiaoyuan](https://github.com/Duangdi/fuck-wozaixiaoyuan/blob/master/%E4%B8%80%E6%97%A5%E4%B8%89%E6%A3%80%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1.pdf)
+  
+  - [Liuism/xsyu-wzxy-sign](https://github.com/Liuism/xsyu-wzxy-sign)
 
 ## 参考/致谢
 
@@ -238,5 +273,5 @@
 
 - 开发者不对任何下载者和使用者的任何行为负责。
 
-- 程序使用的所有信息均利用 Github 的 [Secrets](https://docs.github.com/cn/actions/reference/encrypted-secrets) 加密储存。
+- 程序使用的所有信息均利用 Github 的 [Secrets](https://docs.github.com/cn/actions/reference/encrypted-Secrets) 加密储存。
 
