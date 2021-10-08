@@ -8,6 +8,8 @@
 
 ## 更新日志
 
+- 2021.10.8  支持钉钉机器人推送
+
 - 2021.09.28 修复无法更新 jwsession 的问题。
 
 - 2021.09.19 新增 支持多账户。
@@ -111,6 +113,8 @@
   - `PUSHPLUS_TOKEN`（可选）：填写自己 [PushPlus](https://www.pushplus.plus/) 的 token，用于 PushPlus 推送打卡结果的通知。
   
   - `MIAO_CODE` （可选）：填写 [喵提醒](https://miaotixing.com/) 的喵码，需要先创建提醒获取，具体见喵推送公众号，用于 喵提醒 推送打卡结果的通知。
+  - `DD_BOT_ACCESS_TOKEN`（可选）：钉钉机器人推送Token：填写token后面的内容，只需 https://oapi.dingtalk.com/robot/send?access_token=XXX 等于=符号后面的XXX即可
+  - `DD_BOT_SECRET`（可选）：钉钉机器人推送SECRET：[官方文档](https://developers.dingtalk.com/document/app/custom-robot-access) 
   
   > **推送通知的补充说明**
   >
