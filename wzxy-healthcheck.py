@@ -187,7 +187,7 @@ class WoZaiXiaoYuanPuncher:
             headers = {'Content-Type': 'application/json;charset=utf-8'}
             data = {
                 'msgtype': 'text',
-                'text': {'content': f'⏰ 我在校园打卡（健康打卡）结果通知\n\n{notifyResult}\n\n打卡时间: {notifyTime}'}
+                'text': {'content': f'⏰ 我在校园打卡结果通知\n---------\n打卡项目：健康打卡\n\n打卡情况：{notifyResult}\n\n打卡时间: {notifyTime}'}
             }
             response = requests.post(url=url, data=json.dumps(data), headers=headers, timeout=15).json()
             if not response['errcode']:
