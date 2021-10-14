@@ -76,7 +76,7 @@
 
 ![](https://i.loli.net/2021/08/07/jPYLRtgVk27KAUl.png)
 
-- 进入新建的 Environment ，在 “Environment Secrets” 一栏中点击 `Add Secret` 按钮，新建以下 Secret，并填写对应 Value 值：
+- 进入新建的 Environment ，在 “Environment Secrets” 一栏中点击 `Add Secret` 按钮，分别新建以下 Secret，并填写对应 Value 值：
 
   - `USERNAME`：我在校园账号的用户名。
 
