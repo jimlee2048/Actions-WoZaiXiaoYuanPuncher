@@ -122,6 +122,15 @@
   
   > 如需配置钉钉机器人，上述的 `DD_BOT_ACCESS_TOKEN` 和 `DD_BOT_SECRET` 两条 Secrect 都需创建。
 
+  - `GOBOT_URL`（可选）：go-cqhttp 推送到个人QQ: http://127.0.0.1/send_private_msg  群：http://127.0.0.1/send_group_msg 
+
+  - `GOBOT_TOKEN`（可选）：填写在go-cqhttp文件设置的访问密钥`access-token`，可不填
+ 
+  - `GOBOT_QQ`（可选）：go-cqhttp如果GOBOT_URL设置 /send_private_msg 则需要填入 user_id=个人QQ，相反如果是 /send_group_msg 则需要填入 group_id=QQ群 
+  
+  > 如需配置go-cqhttp，上述的 `GOBOT_URL` 和 `GOBOT_QQ` 为必填项，`GOBOT_TOKEN`可为空。
+  > go-cqhttp相关API https://docs.go-cqhttp.org/api
+
   > **推送通知的补充说明**
   >
   > 目前支持四种推送方式（PushPlus、Serverchan-Turbo、Bark、钉钉机器人）：
