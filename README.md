@@ -136,7 +136,7 @@
 
   > **推送通知的补充说明**
   >
-  > 目前支持四种推送方式（PushPlus、Serverchan-Turbo、Bark、钉钉机器人）：
+  > 目前支持的5种推送方式：PushPlus、Serverchan-Turbo、Bark、钉钉机器人、QQ机器人（go-cqhttp）：
   >
   > - 需要使用哪一种方式推送，创建该方式对应的 Secret 即可。
   >
