@@ -8,7 +8,9 @@
 
 ## 更新日志
 
-- 2021.10.8  新增 支持钉钉机器人推送.
+- 2021.11.17 新增 支持基于 [go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 的 QQ 机器人推送.
+
+- 2021.10.08 新增 支持钉钉机器人推送.
 
   > 🎉 感谢 [@baifan97](https://github.com/baifan97) 的贡献！
 
@@ -128,8 +130,9 @@
  
   - `GOBOT_QQ`（可选）：go-cqhttp如果GOBOT_URL设置 /send_private_msg 则需要填入 user_id=个人QQ，相反如果是 /send_group_msg 则需要填入 group_id=QQ群 
   
-  > 如需配置go-cqhttp，上述的 `GOBOT_URL` 和 `GOBOT_QQ` 为必填项，`GOBOT_TOKEN`可为空。
-  > go-cqhttp相关API https://docs.go-cqhttp.org/api
+  > 如需配置基于 go-cqhttp 的 QQ 机器人推送，上述的 `GOBOT_URL` 和 `GOBOT_QQ` 为必填项，`GOBOT_TOKEN`可为空。
+  > 
+  > 请参考：[go-cqhttp相关API](https://docs.go-cqhttp.org/api)
 
   > **推送通知的补充说明**
   >
