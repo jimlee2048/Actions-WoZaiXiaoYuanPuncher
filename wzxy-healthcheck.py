@@ -170,8 +170,13 @@ class WoZaiXiaoYuanPuncher:
                 "content": content,
                 "template": "json"
             }
-            requests.post(url, data=msg)
-            print("消息经pushplus推送成功")
+            body=json.dumps(msg).encode(encoding='utf-8')
+            headers = {'Content-Type':'application/json'}
+            r = requests.post(url, data=body, headers=headers).json()
+            if r["code"] == 200:
+                print("消息经pushplus推送成功")
+            else:
+                print("消息经pushplus推送失败，请检查token是否配置正确")
         if os.environ.get('GOBOT_URL'):
             # go_cqhttp 推送
             GOBOT_URL = os.environ["GOBOT_URL"]
