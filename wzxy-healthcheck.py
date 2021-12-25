@@ -226,7 +226,7 @@ class WoZaiXiaoYuanPuncher:
                 "text": "打卡项目：健康打卡\n\n打卡情况：{}\n\n打卡时间：{}".format(notifyResult, notifyTime)
             }
             requests.post(baseurl, data=body)
-            print("消息已通过喵推送进行通知，请检查推送结果")
+            print("消息已通过 喵推送 进行通知，请检查推送结果")
 
 
 if __name__ == '__main__':
