@@ -183,12 +183,15 @@
     > - cron是个啥？百度一下！
     >
     > **定时注意事项：** 
-      - Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时。
-      - Github Action 执行计划任务需要排队，脚本并不会准时运行，大概会延迟1h左右，请注意规划时间。
+    >  - Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时。
+    >  - Github Action 执行计划任务需要排队，脚本并不会准时运行，大概会延迟1h左右，请注意规划时间。
 
 - 修改完成后，点击页面右侧绿色按钮 `Start commit`，然后点击绿色按钮 `Commit changes`。
 
-  > **注意：**出于开发者个人使用需要，`wzxy_healthcheck.yml`里`environment`参数默认为`environment: WZXY_CONFIG_02`；如果你严格按照上述教程操作且没有多账户/多地点打卡需要，请找到该行代码并将02改为01。
+  > **注意：** 
+  >
+  > 出于开发者个人使用需要，`wzxy_healthcheck.yml`里`environment`参数默认为`environment: WZXY_CONFIG_02`；如果你严格按照上述教程操作且没有多账户/多地点打卡需要，请找到该行代码并将02改为01。
+  >
   > 关于多账户，请参考文末“其他需求”
 
 ### Step4 手动测试脚本运行
