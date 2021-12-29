@@ -8,7 +8,11 @@
 
 ## 更新日志
 
-- 2021.10.8  新增 支持钉钉机器人推送.
+- 2021.12.25 修复 pushplus 的推送问题。
+
+- 2021.11.17 新增 支持基于 [go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 的 QQ 机器人推送。
+
+- 2021.10.08 新增 支持钉钉机器人推送。
 
   > 🎉 感谢 [@baifan97](https://github.com/baifan97) 的贡献！
 
@@ -122,9 +126,19 @@
   
   > 如需配置钉钉机器人，上述的 `DD_BOT_ACCESS_TOKEN` 和 `DD_BOT_SECRET` 两条 Secrect 都需创建。
 
+  - `GOBOT_URL`（可选）：go-cqhttp 推送到个人QQ: http://127.0.0.1/send_private_msg  群：http://127.0.0.1/send_group_msg 
+
+  - `GOBOT_TOKEN`（可选）：填写在go-cqhttp文件设置的访问密钥`access-token`，可不填
+ 
+  - `GOBOT_QQ`（可选）：go-cqhttp如果GOBOT_URL设置 /send_private_msg 则需要填入 user_id=个人QQ，相反如果是 /send_group_msg 则需要填入 group_id=QQ群 
+  
+  > 如需配置基于 go-cqhttp 的 QQ 机器人推送，上述的 `GOBOT_URL` 和 `GOBOT_QQ` 为必填项，`GOBOT_TOKEN`可为空。
+  > 
+  > 请参考：[go-cqhttp相关API](https://docs.go-cqhttp.org/api)
+
   > **推送通知的补充说明**
   >
-  > 目前支持四种推送方式（PushPlus、Serverchan-Turbo、Bark、钉钉机器人）：
+  > 目前支持的5种推送方式：PushPlus、Serverchan-Turbo、Bark、钉钉机器人、QQ机器人（go-cqhttp）：
   >
   > - 需要使用哪一种方式推送，创建该方式对应的 Secret 即可。
   >
@@ -170,11 +184,16 @@
 
     > - cron是个啥？百度一下！
     >
-    > - **注意：** Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
+    > **定时注意事项：** 
+    >  - Github Actions 用的是世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时。
+    >  - Github Action 执行计划任务需要排队，脚本并不会准时运行，大概会延迟1h左右，请注意规划时间。
 
 - 修改完成后，点击页面右侧绿色按钮 `Start commit`，然后点击绿色按钮 `Commit changes`。
 
-  > **注意：**出于开发者个人使用需要，`wzxy_healthcheck.yml`里`environment`参数默认为`environment: WZXY_CONFIG_02`；如果你严格按照上述教程操作且没有多账户/多地点打卡需要，请找到该行代码并将02改为01。
+  > **注意：** 
+  >
+  > 出于开发者个人使用需要，`wzxy_healthcheck.yml`里`environment`参数默认为`environment: WZXY_CONFIG_02`；如果你严格按照上述教程操作且没有多账户/多地点打卡需要，请找到该行代码并将02改为01。
+  >
   > 关于多账户，请参考文末“其他需求”
 
 ### Step4 手动测试脚本运行
@@ -224,15 +243,21 @@
    - 再次尝试运行脚本，查看是否正常登陆并获取 jwsession。
    - 如仍有问题，请在确保配置文件中密码信息正确的后提 issue。
 
-
 2. 如何配置多账户/多地点打卡？
-
    - 参照 Step 2，新建并配置另一环境；环境名建议保持`WZXY_CONFIG_**`的格式。
-
    - 参考 Step 3，打开打卡脚本所对应的 workflow 文件，复制末尾的多账户配置示例代码，注销注释后填写另一配置的环境名即可。
-3. 需要其他推送通知渠道？
+
+3. 日检日报提交的选项不对？
+   - 不同学校的日检日报问题可能不同，请根据自己的抓包结果修改脚本`wzxy-healthcheck.py`中提交的回答选项。
+
+4. 打卡不准时？
+   - Github Action服务器使用的时间是UTC，设置定时时请注意转换为北京时间（UTC+8）。
+   - Github Action执行计划任务需要排队，并不会准时运行脚本，大概会延迟1h左右，请注意规划时间。
+
+4. 需要其他推送通知渠道？
    - 请提 issue 或参考代码自行实现。
-4. 其他问题？
+
+5. 其他问题？
    - 欢迎提 issue。
 
 ## 抓包大致方法
