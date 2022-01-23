@@ -130,8 +130,18 @@ class WoZaiXiaoYuanPuncher:
         self.header['Host'] = "student.wozaixiaoyuan.com"
         self.header['Content-Type'] = "application/x-www-form-urlencoded"
         self.header['JWSESSION'] = self.getJwsession()
+        # 如果存在全局变量WZXY_ANSWERS，处理传入的Answer
+        if os.environ['WZXY_ANSWERS']:
+            input=os.environ['WZXY_ANSWERS'].strip('[]').split(',')
+            for i in range(len(input)):
+                # %TMP -> 随机温度
+                if input[i] == "%TEM%":
+                    input[i] = utils.getRandomTemperature()
+            answers=json.dumps(input,ensure_ascii=False,separators=(',',':'))
+        else:
+            answers='["0"]'
         sign_data = {
-            "answers": '["0"]',
+            "answers": answers,
             "seq": str(seq),
             "temperature": utils.getRandomTemperature(os.environ['WZXY_TEMPERATURE']),
             "latitude": os.environ['WZXY_LATITUDE'],

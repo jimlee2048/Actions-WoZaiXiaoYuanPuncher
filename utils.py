@@ -13,7 +13,7 @@ def getCurrentHour():
   return datetime.datetime.now(pytz.timezone('Asia/Shanghai')).hour
 
 # 获取随机温度
-def getRandomTemperature(self,temperature='36.0~36.5'):
+def getRandomTemperature(temperature='36.0~36.5'):
   if temperature.find('~') == -1:
       return str(float(temperature))
   else:
