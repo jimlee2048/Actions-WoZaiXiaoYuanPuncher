@@ -4,10 +4,14 @@
 
 基于原仓库中 [@Chorer](https://github.com/Chorer) 贡献的腾讯云函数版脚本修改。
 
-如果在执行脚本时，总是遇到提示`用户或密码错误，还可尝试*次`，导致无法正常打卡的问题，请参考文末[常见问题](#常见问题)。
+如脚本运行有任何问题，请先参考文末[常见问题](#常见问题)；如实在无法解决，请在本仓库直接发issue描述你的问题。**不留联系方式，不接受私下交流。**
+
+**请勿骚扰他人，包括但不限于：在已有issue中回复无关内容、在我的个人博客中留言脚本相关问题。谢谢合作。**
 
 <details>
 <summary><b>更新日志</b></summary>
+
+- 2022.01.24 新增 支持自定义打卡问题的选项或回答。
 
 - 2021.12.25 修复 pushplus 的推送问题。
 
@@ -90,11 +94,19 @@
   - `PASSWORD`：我在校园账号的密码。
 
   - `CACHE_NAME`：值任意，用于储存 jwsession 的缓存文件的前缀名。为避免信息泄露，建议使用包含数字与大小写英文的无序字符串，且长度在32位以上（可以尝试键盘乱打 or 使用生成器）。
-
     > 请注意：配置多账户打卡时，不同环境中的`CACHE_NAME`不能相同！！
 
-  - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.4`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secret，脚本将使用默认值`36.0~36.5`。
-  
+  - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.3`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secret，脚本将使用默认值`36.0~36.5`。
+
+  - `ANSWERS`（可选）：打卡时所提交的选项回答，对应抓包信息中的“answers”。可以通过该 Secrect 自定义打卡问题的选项或回答。
+    > 对于**健康打卡**`wzxy-healthcheck.py`，你可以通过修改体温相关的回答为`%TEM%`，让脚本每次打卡时根据上面`TEMPERATURE`的设置自动生成体温。
+    >
+    > 例：**健康打卡**的抓包结果中，anwsers字段对应的value为`["0","36.2","无"]`;即：第2个关于体温的回答为36.2。
+    >
+    > 如果直接将抓到的`["0","36.2","无"]`作为新建Secrect`ANSWERS`的值，那么脚本将一直使用36.2回答第2个关于体温的问题。
+    >
+    > 你也可以将填到Secrect`ANSWERS`里的值改为`["0",%TEM%,"无"]`。这样，脚本将根据上面Secrect`TEMPERATURE`的设置，每次打卡时选取一个体温值；如果你没有创建Secrect`TEMPERATURE`，脚本将在默认的范围`36.0~36.5`中随机选取。
+
   - `LATITUDE`：打卡该项目时所提交位置信息的纬度，对应抓包信息中的 “latitude”。
   
   - `LONGITUDE`：打卡该项目时所提交位置信息的经度，对应抓包信息中的 “longitude”。
@@ -124,7 +136,7 @@
   - pushplus
   - 钉钉机器人
   - QQ机器人（go-cqhttp）
-  
+
   需要使用哪一种方式推送，创建该方式对应的 Secret 即可。
 
   可以同时推送多个渠道，只需额外创建这些推送方式对应的 Secret 即可。
@@ -142,8 +154,9 @@
   <summary><b>Bark</b></summary>
 
   - `BARK_TOKEN` （可选）：填写自己 Bark 的推送 URL。
-  > 形如 `http://yourdomain.name/thisisatoken`，用于 Bark 推送打卡结果的通知；**请注意不要以斜杠结尾。**
-  > 为避免输入错误，建议从 Bark 客户端直接复制。
+    > 形如 `http://yourdomain.name/thisisatoken`，用于 Bark 推送打卡结果的通知；**请注意不要以斜杠结尾。**
+    >
+    > 为避免输入错误，建议从 Bark 客户端直接复制。
   
   </details>
 
@@ -151,7 +164,7 @@
   <summary><b>pushplus</b></summary>
 
   - `PUSHPLUS_TOKEN`（可选）：填写自己 [pushplus](https://www.pushplus.plus/) 的 token，用于 pushplus 推送打卡结果的通知。
-    > ⚠请认准 pushplus **唯一官网**：[www.pushplus.plus](www.pushplus.plus)，百度搜索的第一个结果是冒牌货。
+    > ⚠本脚本使用的 pushplus 地址为[www.pushplus.plus](www.pushplus.plus)，并非百度搜索的第一个结果，请注意甄别。
 
   </details>
 
@@ -177,12 +190,14 @@
 
   - `GOBOT_URL`（可选）：go-cqhttp 推送的 URL
     > 推送到个人QQ：`http://127.0.0.1/send_private_msg`
+    >
     > 推送到群：`http://127.0.0.1/send_group_msg`
 
   - `GOBOT_TOKEN`（可选）：填写在go-cqhttp文件设置的访问密钥`access-token`，可不填
 
   - `GOBOT_QQ`（可选）：go-cqhttp如果GOBOT_URL设置 /send_private_msg 则需要填入 user_id=个人QQ，相反如果是 /send_group_msg 则需要填入 group_id=QQ群
     > 如需配置基于 go-cqhttp 的 QQ 机器人推送，上述的 `GOBOT_URL` 和 `GOBOT_QQ` 为必填项，`GOBOT_TOKEN`可为空。
+    >
     > 详情请参考：[go-cqhttp相关API](https://docs.go-cqhttp.org/api)
   
   </details>
@@ -269,7 +284,6 @@
 > ![step4.2](https://i.loli.net/2021/08/07/W23K7Gqzsra59Xf.png)
 >
 > - 在 Github Actions 配置页面中，左侧边栏选择需要停用的脚本所对应的 Workflow。
->
 > - 点击搜索栏右边的 `...` 按钮，然后点击 `Disable workflow`。
 
 ## 常见问题
@@ -281,12 +295,12 @@
    - 再次尝试运行脚本，查看是否正常登陆并获取 jwsession。
    - 如仍有问题，请在确保配置文件中密码信息正确的后提 issue。
 
-2. 如何配置多账户/多地点打卡？
+2. 日检日报提交的选项不对？/ 提示`服务出错(500)`？
+   - 请参照 Step2 中的介绍，创建并填写 Secrect `ANSWERS`。
+
+3. 如何配置多账户/多地点打卡？
    - 参照 Step 2，新建并配置另一环境；环境名建议保持 `WZXY_CONFIG_**`的格式。
    - 参考 Step 3，打开打卡脚本所对应的 workflow 文件，复制末尾的多账户配置示例代码，注销注释后填写另一配置的环境名即可。
-
-3. 日检日报提交的选项不对？
-   - 不同学校的日检日报问题可能不同，请根据自己的抓包结果修改脚本`wzxy-healthcheck.py`中提交的回答选项。
 
 4. 打卡不准时？
    - Github Action服务器使用的时间是UTC，设置定时时请注意转换为北京时间（UTC+8）。
