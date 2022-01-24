@@ -27,7 +27,7 @@
 
 - 2021.09.03 新增 支持喵推送。
 
-- 2021.08.04 新增 支持多种通知方式（Serverchan-Turbo、PushPlus、Bark）。
+- 2021.08.04 新增 支持多种通知方式（Serverchan-Turbo、pushplus、Bark）。
   > 🎉 感谢 [@LeslieLeung](https://github.com/LeslieLeung) 的贡献！
   
 </details>
@@ -52,7 +52,7 @@
 
 - 对原代码部分逻辑结构进行修改优化。
 
-- 支持多种通知方式（Serverchan-Turbo、PushPlus、Bark、喵推送）
+- 支持多种通知方式（Serverchan-Turbo、pushplus、Bark、喵推送、QQ机器人（go-cqhttp）、钉钉机器人）
 
 欢迎 Issue & Pull request ！
 
