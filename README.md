@@ -164,7 +164,7 @@
   <summary><b>pushplus</b></summary>
 
   - `PUSHPLUS_TOKEN`（可选）：填写自己 [pushplus](https://www.pushplus.plus/) 的 token，用于 pushplus 推送打卡结果的通知。
-    > ⚠本脚本使用的 pushplus 地址为[www.pushplus.plus](www.pushplus.plus)，并非百度搜索的第一个结果，请注意甄别。
+    > ⚠本脚本使用的 pushplus 地址为[www.pushplus.plus](https://www.pushplus.plus)，并非百度搜索的第一个结果，请注意甄别。
 
   </details>
 
