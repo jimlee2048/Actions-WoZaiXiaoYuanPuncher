@@ -221,7 +221,7 @@ class WoZaiXiaoYuanPuncher:
             if not r['errcode']:
                 print('消息经 钉钉机器人 推送成功！')
             else:
-                print("dingding:" + r)
+                print("dingding:" + r['errcode'] + ": " + r['errmsg'])
                 print('消息经 钉钉机器人 推送失败，请检查错误信息')
         if os.environ.get('BARK_TOKEN'):
             # bark 推送
