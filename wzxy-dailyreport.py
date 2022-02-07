@@ -234,7 +234,7 @@ class WoZaiXiaoYuanPuncher:
             if r["code"] == 200:
                 print("消息经 pushplus 推送成功")
             else:
-                print("pushplus: " + r)
+                print("pushplus: " + r['code'] + ": " + r['msg'])
                 print("消息经 pushplus 推送失败，请检查错误信息")
         if os.environ.get('GOBOT_URL'):
             # go_cqhttp 推送
@@ -246,7 +246,7 @@ class WoZaiXiaoYuanPuncher:
             if r["status"] == "ok":
                 print("消息经 go-cqhttp 推送成功！")
             else:
-                print("go-cqhttp:" + r)
+                print("go-cqhttp:" + r['retcode'] + ": " + r['msg'] + " " + r['wording'])
                 print("消息经 go-cqhttp 推送失败，请检查错误信息")
         if os.environ.get('DD_BOT_ACCESS_TOKEN'):
             # 钉钉推送
