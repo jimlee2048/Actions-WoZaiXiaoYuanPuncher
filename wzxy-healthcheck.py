@@ -86,8 +86,18 @@ class WoZaiXiaoYuanPuncher:
         self.header['Host'] = "student.wozaixiaoyuan.com"
         self.header['Content-Type'] = "application/x-www-form-urlencoded"
         self.header['JWSESSION'] = self.getJwsession()
+        # 如果存在全局变量WZXY_ANSWERS，处理传入的Answer
+        if os.environ['WZXY_ANSWERS']:
+            input=os.environ['WZXY_ANSWERS'].strip('[]').split(',')
+            for i in range(len(input)):
+                # %TMP -> 随机温度
+                if input[i] == "%TEM%":
+                    input[i] = utils.getRandomTemperature()
+            answers=json.dumps(input,ensure_ascii=False,separators=(',',':'))
+        else:
+            answers='["0","1","1"]'
         sign_data = {
-            "answers": '["0","1","1"]', # 要提交的回答选项。各个学校问题可能不同，请根据自己的抓包结果修改。
+            "answers": answers,
             "latitude": os.environ['WZXY_LATITUDE'],
             "longitude": os.environ['WZXY_LONGITUDE'],
             "country": os.environ['WZXY_COUNTRY'],
@@ -154,7 +164,7 @@ class WoZaiXiaoYuanPuncher:
                 "desp": "打卡项目：健康打卡\n\n打卡情况：{}\n\n打卡时间：{}".format(notifyResult, notifyTime)
             }
             requests.post(url.format(notifyToken), data=body)
-            print("消息已使用 Serverchan-Turbo 推送，请检查推送结果")
+            print("消息已通过 Serverchan-Turbo 推送，请检查推送结果")
         if os.environ.get('PUSHPLUS_TOKEN'):
             # pushplus 推送
             url = 'http://www.pushplus.plus/send'
@@ -176,7 +186,7 @@ class WoZaiXiaoYuanPuncher:
             if r["code"] == 200:
                 print("消息经 pushplus 推送成功")
             else:
-                print(r)
+                print("pushplus: " + r['code'] + ": " + r['msg'])
                 print("消息经 pushplus 推送失败，请检查错误信息")
         if os.environ.get('GOBOT_URL'):
             # go_cqhttp 推送
@@ -188,7 +198,7 @@ class WoZaiXiaoYuanPuncher:
             if r["status"] == "ok":
                 print("消息经 go-cqhttp 推送成功！")
             else:
-                print(r)
+                print("go-cqhttp:" + r['retcode'] + ": " + r['msg'] + " " + r['wording'])
                 print("消息经 go-cqhttp 推送失败，请检查错误信息")
         if os.environ.get('DD_BOT_ACCESS_TOKEN'):
             # 钉钉推送
@@ -211,7 +221,7 @@ class WoZaiXiaoYuanPuncher:
             if not r['errcode']:
                 print('消息经 钉钉机器人 推送成功！')
             else:
-                print(r)
+                print("dingding:" + r['errcode'] + ": " + r['errmsg'])
                 print('消息经 钉钉机器人 推送失败，请检查错误信息')
         if os.environ.get('BARK_TOKEN'):
             # bark 推送
