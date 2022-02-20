@@ -93,11 +93,11 @@ class WoZaiXiaoYuanPuncher:
                 # %TMP -> 随机温度
                 if input[i] == "%TEM%":
                     input[i] = utils.getRandomTemperature()
-            answers=json.dumps(input,ensure_ascii=False,separators=(',',':'))
+            ANSWERS=json.dumps(input,ensure_ascii=False,separators=(',',':'))
         else:
-            answers='["0","1","1"]'
+            ANSWERS='["0","1","1"]'
         sign_data = {
-            "answers": answers,
+            "answers": ANSWERS,
             "latitude": os.environ['WZXY_LATITUDE'],
             "longitude": os.environ['WZXY_LONGITUDE'],
             "country": os.environ['WZXY_COUNTRY'],
