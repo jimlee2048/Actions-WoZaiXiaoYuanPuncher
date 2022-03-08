@@ -92,7 +92,7 @@ jobs:
      run: python wzxy-dailyreport.py      
   USER_03:    ## Jobs名，注意修改序号
    runs-on: ubuntu-latest
-   environment: WZXY_CONFIG_02           ## 苗凯
+   environment: WZXY_CONFIG_03           ## 苗凯
    steps:
    - uses: actions/checkout@v2
    - name: Set up Python 3.9
@@ -130,7 +130,7 @@ jobs:
      run: python wzxy-dailyreport.py    
   USER_04:    ## Jobs名，注意修改序号
    runs-on: ubuntu-latest
-   environment: WZXY_CONFIG_02           ## 庞培瑶
+   environment: WZXY_CONFIG_04           ## 庞培瑶
    steps:
    - uses: actions/checkout@v2
    - name: Set up Python 3.9
