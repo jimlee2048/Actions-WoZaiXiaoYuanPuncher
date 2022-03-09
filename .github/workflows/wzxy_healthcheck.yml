@@ -56,116 +56,94 @@ jobs:
       run: python wzxy-healthcheck.py
 
   ## 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
-  USER_02:    ## Jobs名，注意修改序号
-   runs-on: ubuntu-latest
-   environment: WZXY_CONFIG_02           #石梅
-   steps:
-   - uses: actions/checkout@v2
-   - name: Set up Python 3.9
-     uses: actions/setup-python@v2
-     with:
-       python-version: 3.9
-   - name: Install dependencies
-     run: |
-       python -m pip install --upgrade pip
-       pip install -r requirements.txt#   - name: Import cache
-     uses: actions/cache@v2
-     with:
-       path: .cache
-       key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
-       restore-keys: ${{ secrets.CACHE_NAME }}-
-   - name: Run script
-     env:
-       SCT_KEY: ${{secrets.SCT_KEY}}
-       BARK_TOKEN: ${{secrets.BARK_TOKEN}}
-       PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
-       MIAO_CODE: ${{secrets.MIAO_CODE}}
-       WZXY_USERNAME: ${{secrets.USERNAME}}
-       WZXY_PASSWORD: ${{secrets.PASSWORD}}
-       WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
-       WZXY_LATITUDE: ${{secrets.LATITUDE}}
-       WZXY_LONGITUDE: ${{secrets.LONGITUDE}}
-       WZXY_COUNTRY: ${{secrets.COUNTRY}}
-       WZXY_CITY: ${{secrets.CITY}}
-       WZXY_DISTRICT: ${{secrets.DISTRICT}}
-       WZXY_PROVINCE: ${{secrets.PROVINCE}}
-       WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
-       WZXY_STREET: ${{secrets.STREET}}
-       WZXY_ANSWERS: ${{secrets.ANSWERS}}
-     run: python wzxy-dailyreport.py       
-  USER_03:    ## Jobs名，注意修改序号
-   runs-on: ubuntu-latest
-   environment: WZXY_CONFIG_03           #苗凯
-   steps:
-   - uses: actions/checkout@v2
-   - name: Set up Python 3.9
-     uses: actions/setup-python@v2
-     with:
-       python-version: 3.9
-   - name: Install dependencies
-     run: |
-       python -m pip install --upgrade pip
-       pip install -r requirements.txt#   - name: Import cache
-     uses: actions/cache@v2
-     with:
-       path: .cache
-       key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
-       restore-keys: ${{ secrets.CACHE_NAME }}-
-   - name: Run script
-     env:
-       SCT_KEY: ${{secrets.SCT_KEY}}
-       BARK_TOKEN: ${{secrets.BARK_TOKEN}}
-       PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
-       MIAO_CODE: ${{secrets.MIAO_CODE}}
-       WZXY_USERNAME: ${{secrets.USERNAME}}
-       WZXY_PASSWORD: ${{secrets.PASSWORD}}
-       WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
-       WZXY_LATITUDE: ${{secrets.LATITUDE}}
-       WZXY_LONGITUDE: ${{secrets.LONGITUDE}}
-       WZXY_COUNTRY: ${{secrets.COUNTRY}}
-       WZXY_CITY: ${{secrets.CITY}}
-       WZXY_DISTRICT: ${{secrets.DISTRICT}}
-       WZXY_PROVINCE: ${{secrets.PROVINCE}}
-       WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
-       WZXY_STREET: ${{secrets.STREET}}
-       WZXY_ANSWERS: ${{secrets.ANSWERS}}
-     run: python wzxy-dailyreport.py    
-  USER_04:    ## Jobs名，注意修改序号
-   runs-on: ubuntu-latest
-   environment: WZXY_CONFIG_04           #庞培瑶
-   steps:
-   - uses: actions/checkout@v2
-   - name: Set up Python 3.9
-     uses: actions/setup-python@v2
-     with:
-       python-version: 3.9
-   - name: Install dependencies
-     run: |
-       python -m pip install --upgrade pip
-       pip install -r requirements.txt#   - name: Import cache
-     uses: actions/cache@v2
-     with:
-       path: .cache
-       key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
-       restore-keys: ${{ secrets.CACHE_NAME }}-
-   - name: Run script
-     env:
-       SCT_KEY: ${{secrets.SCT_KEY}}
-       BARK_TOKEN: ${{secrets.BARK_TOKEN}}
-       PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
-       MIAO_CODE: ${{secrets.MIAO_CODE}}
-       WZXY_USERNAME: ${{secrets.USERNAME}}
-       WZXY_PASSWORD: ${{secrets.PASSWORD}}
-       WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
-       WZXY_LATITUDE: ${{secrets.LATITUDE}}
-       WZXY_LONGITUDE: ${{secrets.LONGITUDE}}
-       WZXY_COUNTRY: ${{secrets.COUNTRY}}
-       WZXY_CITY: ${{secrets.CITY}}
-       WZXY_DISTRICT: ${{secrets.DISTRICT}}
-       WZXY_PROVINCE: ${{secrets.PROVINCE}}
-       WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
-       WZXY_STREET: ${{secrets.STREET}}
-       WZXY_ANSWERS: ${{secrets.ANSWERS}}
-     run: python wzxy-dailyreport.py       
+  USER_02:
+    runs-on: ubuntu-latest
+    # 如果严格按照README中教程操作，且没有多账户/多地点打卡需要，请将下行代码中的02改成01
+    environment: WZXY_CONFIG_02 # 石梅                                
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Import cache
+      uses: actions/cache@v2
+      with:
+        path: .cache
+        key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
+        restore-keys: ${{ secrets.CACHE_NAME }}-
+    - name: Run script
+      env:
+        DD_BOT_ACCESS_TOKEN: ${{secrets.DD_BOT_ACCESS_TOKEN}}
+        DD_BOT_SECRET: ${{secrets.DD_BOT_SECRET}}
+        SCT_KEY: ${{secrets.SCT_KEY}}
+        GOBOT_URL: ${{secrets.GOBOT_URL}}
+        GOBOT_QQ: ${{secrets.GOBOT_QQ}}
+        GOBOT_TOKEN: ${{secrets.GOBOT_TOKEN}}
+        BARK_TOKEN: ${{secrets.BARK_TOKEN}}
+        PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
+        MIAO_CODE: ${{secrets.MIAO_CODE}}
+        WZXY_USERNAME: ${{secrets.USERNAME}}
+        WZXY_PASSWORD: ${{secrets.PASSWORD}}
+        WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
+        WZXY_LATITUDE: ${{secrets.LATITUDE}}
+        WZXY_LONGITUDE: ${{secrets.LONGITUDE}}
+        WZXY_COUNTRY: ${{secrets.COUNTRY}}
+        WZXY_CITY: ${{secrets.CITY}}
+        WZXY_DISTRICT: ${{secrets.DISTRICT}}
+        WZXY_PROVINCE: ${{secrets.PROVINCE}}
+        WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
+        WZXY_STREET: ${{secrets.STREET}}
+        WZXY_ANSWERS: ${{secrets.ANSWERS}}
+      run: python wzxy-healthcheck.py
 
+  USER_03:
+    runs-on: ubuntu-latest
+    # 如果严格按照README中教程操作，且没有多账户/多地点打卡需要，请将下行代码中的02改成01
+    environment: WZXY_CONFIG_03 # 苗凯                                
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Import cache
+      uses: actions/cache@v2
+      with:
+        path: .cache
+        key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
+        restore-keys: ${{ secrets.CACHE_NAME }}-
+    - name: Run script
+      env:
+        DD_BOT_ACCESS_TOKEN: ${{secrets.DD_BOT_ACCESS_TOKEN}}
+        DD_BOT_SECRET: ${{secrets.DD_BOT_SECRET}}
+        SCT_KEY: ${{secrets.SCT_KEY}}
+        GOBOT_URL: ${{secrets.GOBOT_URL}}
+        GOBOT_QQ: ${{secrets.GOBOT_QQ}}
+        GOBOT_TOKEN: ${{secrets.GOBOT_TOKEN}}
+        BARK_TOKEN: ${{secrets.BARK_TOKEN}}
+        PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
+        MIAO_CODE: ${{secrets.MIAO_CODE}}
+        WZXY_USERNAME: ${{secrets.USERNAME}}
+        WZXY_PASSWORD: ${{secrets.PASSWORD}}
+        WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
+        WZXY_LATITUDE: ${{secrets.LATITUDE}}
+        WZXY_LONGITUDE: ${{secrets.LONGITUDE}}
+        WZXY_COUNTRY: ${{secrets.COUNTRY}}
+        WZXY_CITY: ${{secrets.CITY}}
+        WZXY_DISTRICT: ${{secrets.DISTRICT}}
+        WZXY_PROVINCE: ${{secrets.PROVINCE}}
+        WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
+        WZXY_STREET: ${{secrets.STREET}}
+        WZXY_ANSWERS: ${{secrets.ANSWERS}}
+      run: python wzxy-healthcheck.py
 
+ 
