@@ -149,7 +149,7 @@ class WoZaiXiaoYuanPuncher:
             "userId": "",
             "city_code": os.environ["WZXY_CITY_CODE"],
             "timestampHeader": cur_time,
-            "signature": hashlib.sha256(
+            "signatureHeader": hashlib.sha256(
                 f"{os.environ['WZXY_PROVINCE']}_{cur_time}_{os.environ['WZXY_CITY']}".encode(
                     "utf-8"
                 )

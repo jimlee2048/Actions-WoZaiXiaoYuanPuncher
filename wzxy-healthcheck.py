@@ -100,9 +100,11 @@ class WoZaiXiaoYuanPuncher:
             "province": os.environ["WZXY_PROVINCE"],
             "township": os.environ["WZXY_TOWNSHIP"],
             "street": os.environ["WZXY_STREET"],
-            "city_code": os.environ["WZXY_CITY_CODE"],
+            "areacode": os.environ["WZXY_AREACODE"],
+            "towncode": os.environ["WZXY_TOWNCODE"],
+            "citycode": os.environ["WZXY_CITYCODE"],
             "timestampHeader": cur_time,
-            "signature": hashlib.sha256(
+            "signatureHeader": hashlib.sha256(
                 f"{os.environ['WZXY_PROVINCE']}_{cur_time}_{os.environ['WZXY_CITY']}".encode(
                     "utf-8"
                 )
