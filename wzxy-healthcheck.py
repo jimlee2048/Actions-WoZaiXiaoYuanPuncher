@@ -111,6 +111,7 @@ class WoZaiXiaoYuanPuncher:
             ).hexdigest(),
         }
         data = urlencode(sign_data)
+        print(data)
         self.session = requests.session()
         response = self.session.post(url=url, data=data, headers=self.header)
         response = json.loads(response.text)
