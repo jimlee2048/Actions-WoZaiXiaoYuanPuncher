@@ -1,3 +1,4 @@
+**⚠⚠ 2022.04.17 由于我在校园更新，本脚本已失效，请见[issue#38](https://github.com/jimlee2002/Actions-WoZaiXiaoYuanPuncher/issues/38)**
 # WoZaiXiaoYuanPuncher-Actions
 
 我在校园自动打卡程序：[zimin9/WoZaiXiaoYuanPuncher](https://github.com/zimin9/WoZaiXiaoYuanPuncher) 的 Github Action 版。
