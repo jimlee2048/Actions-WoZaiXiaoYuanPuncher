@@ -48,7 +48,7 @@ jobs:
         WZXY_PROVINCE: ${{secrets.PROVINCE}}
         WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
         WZXY_STREET: ${{secrets.STREET}}
-        WZXY_ANSWERS: ${{secrets.ANSWERS}}
+        WZXY_CITY_CODE: ${{secrets.CITY_CODE}}
       run: python wzxy-dailyreport.py
   
   ## 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
@@ -87,6 +87,5 @@ jobs:
   #       WZXY_DISTRICT: ${{secrets.DISTRICT}}
   #       WZXY_PROVINCE: ${{secrets.PROVINCE}}
   #       WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
-  #       WZXY_STREET: ${{secrets.STREET}}
-  #       WZXY_ANSWERS: ${{secrets.ANSWERS}}    
+  #       WZXY_STREET: ${{secrets.STREET}}    
   #     run: python wzxy-dailyreport.py      
