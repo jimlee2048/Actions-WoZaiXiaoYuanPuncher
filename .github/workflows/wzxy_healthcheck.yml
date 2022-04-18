@@ -13,7 +13,7 @@ jobs:
   USER_01:
     runs-on: ubuntu-latest
     # 如果严格按照README中教程操作，且没有多账户/多地点打卡需要，请将下行代码中的02改成01
-    environment: WZXY_CONFIG_02 # 填写需要使用的用户配置对应的环境,请自行根据实际情况修改                                
+    environment: WZXY_CONFIG_02 # 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
@@ -52,7 +52,10 @@ jobs:
         WZXY_PROVINCE: ${{secrets.PROVINCE}}
         WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
         WZXY_STREET: ${{secrets.STREET}}
-        WZXY_ANSWERS: ${{secrets.ANSWERS}}
+        WZXY_AREACODE: ${{secrets.AREACODE}}
+        WZXY_TOWNCODE: ${{secrets.TOWNCODE}}
+        WZXY_CITYCODE: ${{secrets.CITYCODE}}
+
       run: python wzxy-healthcheck.py
 
   ## 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
@@ -91,6 +94,5 @@ jobs:
   #       WZXY_DISTRICT: ${{secrets.DISTRICT}}
   #       WZXY_PROVINCE: ${{secrets.PROVINCE}}
   #       WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
-  #       WZXY_STREET: ${{secrets.STREET}}
-  #       WZXY_ANSWERS: ${{secrets.ANSWERS}}
+  #       WZXY_STREET: ${{secrets.STREET}}    
   #     run: python wzxy-dailyreport.py       
