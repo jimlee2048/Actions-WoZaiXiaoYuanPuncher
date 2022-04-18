@@ -111,7 +111,6 @@ class WoZaiXiaoYuanPuncher:
             ).hexdigest(),
         }
         data = urlencode(sign_data)
-        print(data)
         self.session = requests.session()
         response = self.session.post(url=url, data=data, headers=self.header)
         response = json.loads(response.text)
@@ -176,7 +175,11 @@ class WoZaiXiaoYuanPuncher:
             url = "http://www.pushplus.plus/send"
             notifyToken = os.environ["PUSHPLUS_TOKEN"]
             content = json.dumps(
-                {"打卡项目": "健康打卡", "打卡情况": notifyResult, "打卡时间": notifyTime},
+                {
+                    "打卡项目": "健康打卡",
+                    "打卡情况": notifyResult,
+                    "打卡时间": notifyTime
+                },
                 ensure_ascii=False,
             )
             msg = {
