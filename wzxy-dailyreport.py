@@ -139,7 +139,7 @@ class WoZaiXiaoYuanPuncher:
         else:
             TEMPERATURE = utils.getRandomTemperature('36.0~36.5')
         sign_data = {
-            "answers": '["0"]',
+            "answers": '["0"]', # 在此自定义answers字段
             "seq": str(seq),
             "temperature": TEMPERATURE,
             "latitude": os.environ["WZXY_LATITUDE"],
@@ -152,8 +152,8 @@ class WoZaiXiaoYuanPuncher:
             "street": os.environ["WZXY_STREET"],
             "myArea": "",
             "areacode": "",
+            "citycode": os.environ["WZXY_CITYCODE"],
             "userId": "",
-            "city_code": os.environ["WZXY_CITY_CODE"],
             "timestampHeader": cur_time,
             "signatureHeader": hashlib.sha256(
                 f"{os.environ['WZXY_PROVINCE']}_{cur_time}_{os.environ['WZXY_CITY']}".encode(
