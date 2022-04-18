@@ -1,4 +1,3 @@
-**⚠⚠ 2022.04.17 由于我在校园更新，本脚本已失效，请见[issue#38](https://github.com/jimlee2002/Actions-WoZaiXiaoYuanPuncher/issues/38)**
 # WoZaiXiaoYuanPuncher-Actions
 
 我在校园自动打卡程序：[zimin9/WoZaiXiaoYuanPuncher](https://github.com/zimin9/WoZaiXiaoYuanPuncher) 的 Github Action 版。
@@ -11,6 +10,11 @@
 
 <details>
 <summary><b>更新日志</b></summary>
+
+- 2022.04.18 修复 2022.04.17 我在校园添加新验证字段后脚本失效的问题
+  > 🎉 感谢 [@sizau](https://github.com/sizau) 分享的思路与 [@LeslieLeung](https://github.com/LeslieLeung) 提交的 PR！
+  
+  > **⚠重要提醒：** 该版本暂时取消了通过Secrect`ANSWERS`自定义提交的"answers"字段的功能。如需自定义打卡时提交的"answers"，请参考代码中的注释，自行修改脚本中的对应字段。
 
 - 2022.01.24 新增 支持自定义打卡问题的选项或回答。
 
@@ -99,14 +103,18 @@
 
   - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.3`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secret，脚本将使用默认值`36.0~36.5`。
 
-  - `ANSWERS`（可选）：打卡时所提交的选项回答，对应抓包信息中的“answers”。可以通过该 Secrect 自定义打卡问题的选项或回答。
-    > 对于**健康打卡**`wzxy-healthcheck.py`，你可以通过修改体温相关的回答为`%TEM%`，让脚本每次打卡时根据上面`TEMPERATURE`的设置自动生成体温。
+  - ~~`ANSWERS`（可选）：打卡时所提交的选项回答，对应抓包信息中的“answers”。可以通过该 Secrect 自定义打卡问题的选项或回答。~~
+    > ~~对于**健康打卡**`wzxy-healthcheck.py`，你可以通过修改体温相关的回答为`%TEM%`，让脚本每次打卡时根据上面`TEMPERATURE`的设置自动生成体温。~~
     >
-    > 例：**健康打卡**的抓包结果中，anwsers字段对应的value为`["0","36.2","无"]`;即：第2个关于体温的回答为36.2。
+    > ~~例：**健康打卡**的抓包结果中，anwsers字段对应的value为`["0","36.2","无"]`;即：第2个关于体温的回答为36.2。~~
     >
-    > 如果直接将抓到的`["0","36.2","无"]`作为新建Secrect`ANSWERS`的值，那么脚本将一直使用36.2回答第2个关于体温的问题。
+    > ~~如果直接将抓到的`["0","36.2","无"]`作为新建Secrect`ANSWERS`的值，那么脚本将一直使用36.2回答第2个关于体温的问题。~~
     >
-    > 你也可以将填到Secrect`ANSWERS`里的值改为`["0",%TEM%,"无"]`。这样，脚本将根据上面Secrect`TEMPERATURE`的设置，每次打卡时选取一个体温值；如果你没有创建Secrect`TEMPERATURE`，脚本将在默认的范围`36.0~36.5`中随机选取。
+    > ~~你也可以将填到Secrect`ANSWERS`里的值改为`["0",%TEM%,"无"]`。这样，脚本将根据上面Secrect`TEMPERATURE`的设置，每次打卡时选取一个体温值；如果你没有创建Secrect`TEMPERATURE`，脚本将在默认的范围`36.0~36.5`中随机选取。~~
+
+    > ⚠自定义`ANSWERS`功能存在问题，暂时取消该功能，后续修复后将重新上线。
+    > 如需自定义打卡时提交的"answers"，请参考代码中的注释，自行修改脚本中的对应字段。
+
 
   - `LATITUDE`：打卡该项目时所提交位置信息的纬度，对应抓包信息中的 “latitude”。
   
@@ -123,6 +131,12 @@
   - `TOWNSHIP`：打卡该项目时所提交位置信息的街道，对应抓包信息中的 “township” 。
   
   - `STREET`：Value 值填写 打卡该项目时所提交位置信息的路，对应抓包信息中的 “street”。
+  
+  - `AREACODE`：填写抓包信息中 "areacode" 的值。
+
+  - `TOWNCODE`：填写抓包信息中 "towncode" 的值。
+
+  - `CITYCODE`：填写抓包信息中 "citycode" 的值。
   
   > 如果需要两个打卡项目所需提交的地理位置信息不一样（比如“日检日报”在校打卡，“健康打卡”在家打卡），可以分别抓取两个打卡项目的提交数据，并参考文末“常见问题 - 3.如何配置多账户/多地点打卡？” 新建 Environment 并配置对应 Secect。
 
@@ -297,7 +311,8 @@
    - 如仍有问题，请在确保配置文件中密码信息正确的后提 issue。
 
 2. 日检日报提交的选项不对？/ 提示`服务出错(500)`？
-   - 请参照 Step2 中的介绍，创建并填写 Secrect `ANSWERS`。
+   - ~~请参照 Step2 中的介绍，创建并填写 Secrect `ANSWERS`。~~
+   - 需要自定义打卡时提交的"answers"。请参考代码中的注释，自行修改脚本中的对应字段。
 
 3. 如何配置多账户/多地点打卡？
    - 参照 Step 2，新建并配置另一环境；环境名建议保持 `WZXY_CONFIG_**`的格式。
