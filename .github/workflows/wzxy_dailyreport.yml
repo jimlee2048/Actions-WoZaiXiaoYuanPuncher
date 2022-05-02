@@ -48,6 +48,7 @@ jobs:
         WZXY_PROVINCE: ${{secrets.PROVINCE}}
         WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
         WZXY_STREET: ${{secrets.STREET}}
+        WZXY_CITYCODE: ${{secrets.CITYCODE}}
       run: python wzxy-dailyreport.py
   
   ## 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
@@ -72,6 +73,8 @@ jobs:
   #       restore-keys: ${{ secrets.CACHE_NAME }}-
   #   - name: Run script
   #     env:
+  #       DD_BOT_ACCESS_TOKEN: ${{secrets.DD_BOT_ACCESS_TOKEN}}
+  #       DD_BOT_SECRET: ${{secrets.DD_BOT_SECRET}}
   #       SCT_KEY: ${{secrets.SCT_KEY}}
   #       BARK_TOKEN: ${{secrets.BARK_TOKEN}}
   #       PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
@@ -86,5 +89,6 @@ jobs:
   #       WZXY_DISTRICT: ${{secrets.DISTRICT}}
   #       WZXY_PROVINCE: ${{secrets.PROVINCE}}
   #       WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
-  #       WZXY_STREET: ${{secrets.STREET}}    
+  #       WZXY_STREET: ${{secrets.STREET}}
+  #       WZXY_CITY_CODE: ${{secrets.CITY_CODE}}
   #     run: python wzxy-dailyreport.py      
