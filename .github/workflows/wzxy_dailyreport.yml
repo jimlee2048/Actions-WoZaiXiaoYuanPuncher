@@ -37,6 +37,8 @@ jobs:
         BARK_TOKEN: ${{secrets.BARK_TOKEN}}
         PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
         MIAO_CODE: ${{secrets.MIAO_CODE}}
+        TG_TOKEN: ${{secrets.TG_TOKEN}}
+        TG_CHATID: ${{secrets.TG_CHATID}}
         WZXY_USERNAME: ${{secrets.USERNAME}}
         WZXY_PASSWORD: ${{secrets.PASSWORD}}
         WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
@@ -48,6 +50,9 @@ jobs:
         WZXY_PROVINCE: ${{secrets.PROVINCE}}
         WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
         WZXY_STREET: ${{secrets.STREET}}
+        WZXY_MYAREA: ${{secrets.MYAREA}}
+        WZXY_AREACODE: ${{secrets.AREACODE}}
+        WZXY_TOWNCODE: ${{secrets.TOWNCODE}}
         WZXY_CITYCODE: ${{secrets.CITYCODE}}
       run: python wzxy-dailyreport.py
   
@@ -79,6 +84,8 @@ jobs:
   #       BARK_TOKEN: ${{secrets.BARK_TOKEN}}
   #       PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
   #       MIAO_CODE: ${{secrets.MIAO_CODE}}
+  #       TG_TOKEN: ${{secrets.TG_TOKEN}}
+  #       TG_CHATID: ${{secrets.TG_CHATID}}
   #       WZXY_USERNAME: ${{secrets.USERNAME}}
   #       WZXY_PASSWORD: ${{secrets.PASSWORD}}
   #       WZXY_TEMPERATURE: ${{secrets.TEMPERATURE}}
@@ -90,5 +97,8 @@ jobs:
   #       WZXY_PROVINCE: ${{secrets.PROVINCE}}
   #       WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
   #       WZXY_STREET: ${{secrets.STREET}}
+  #       WZXY_MYAREA: ${{secrets.MYAREA}}
+  #       WZXY_AREACODE: ${{secrets.AREACODE}}
+  #       WZXY_TOWNCODE: ${{secrets.TOWNCODE}}
   #       WZXY_CITY_CODE: ${{secrets.CITY_CODE}}
   #     run: python wzxy-dailyreport.py      
