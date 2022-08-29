@@ -48,7 +48,7 @@ jobs:
         WZXY_PROVINCE: ${{secrets.PROVINCE}}
         WZXY_TOWNSHIP: ${{secrets.TOWNSHIP}}
         WZXY_STREET: ${{secrets.STREET}}
-        WZXY_STREET_NUMBER:${{secrets.STREET_NUMBER}}
+        WZXY_STREET_NUMBER: ${{secrets.STREET_NUMBER}}
         WZXY_CITYCODE: ${{secrets.CITYCODE}}
       run: python wzxy-dailyreport.py
   
