@@ -131,8 +131,6 @@
   - `TOWNSHIP`：打卡该项目时所提交位置信息的街道，对应抓包信息中的 “township” 。
   
   - `STREET`：Value 值填写 打卡该项目时所提交位置信息的路，对应抓包信息中的 “street”。
-
-  -`STREET_NUMBER`:Value 值填写 打卡该项目时所提交位置信息的路，对应抓包信息中的 “street_number”。
   
   - `AREACODE`：填写抓包信息中 "areacode" 的值。
 
