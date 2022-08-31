@@ -151,6 +151,7 @@
   - pushplus
   - 钉钉机器人
   - QQ机器人（go-cqhttp）
+  - Telegram-bot
 
   需要使用哪一种方式推送，创建该方式对应的 Secret 即可。
 
@@ -217,7 +218,11 @@
   
   </details>
 
-### Step3 配置脚本运行时间
+  - `TG-TOKEN` (可选)：填写在 BotFather 处 creat a bot 获取的`API ToKen`
+
+  - `TG-CHATID`(可选)：Telegram 中关注 'getuserID' 获取
+
+### Step3 配置脚本运行时间 
 
 脚本的触发运行时间由项目仓库内`.github/workflows`的两个 Workflow 文件配置：
 

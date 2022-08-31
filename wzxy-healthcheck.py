@@ -251,6 +251,17 @@ class WoZaiXiaoYuanPuncher:
             }
             requests.post(baseurl, data=body)
             print("消息已通过 喵推送 进行通知，请检查推送结果")
+        if os.environ.get("TG-TOKEN")
+            # telegram机器人
+            token = os.environ["TG-TOKEN"]
+            chat_id = os.environ["TG-CHATID"]
+            text = "打卡项目：健康打卡\n\n打卡情况：{}\n\n打卡时间：{}".format(
+                    notifyResult, notifyTime
+                )
+            tg_url = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id + "&text=" + text 
+            results = requests.get(tg_url)
+            print("消息已通过 Telegram-bot 进行通知，请检查推送结果")
+        
 
 
 if __name__ == "__main__":
