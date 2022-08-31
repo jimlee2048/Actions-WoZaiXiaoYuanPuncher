@@ -301,6 +301,7 @@ class WoZaiXiaoYuanPuncher:
             req = "{}/{}/{}".format(notifyToken, "⏰ 我在校园打卡（日检日报）结果通知", notifyResult)
             requests.get(req)
             print("消息经bark推送成功")
+        # 喵提醒
         if os.environ.get("MIAO_CODE"):
             baseurl = "https://miaotixing.com/trigger"
             body = {
@@ -311,20 +312,12 @@ class WoZaiXiaoYuanPuncher:
             }
             requests.post(baseurl, data=body)
             print("消息已通过 喵推送 进行通知，请检查推送结果")
+        # telegram机器人
         if os.environ.get("TG-TOKEN"):
-            # telegram机器人
             token = os.environ["TG-TOKEN"]
             chat_id = os.environ["TG-CHATID"]
             text = "打卡项目：日检日报\n\n打卡情况：{}\n\n打卡时间：{}".format(notifyResult, notifyTime)
-            tg_url = (
-                "https://api.telegram.org/bot"
-                + token
-                + "/sendMessage"
-                + "?chat_id="
-                + chat_id
-                + "&text="
-                + text
-            )
+            tg_url = "https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&text={text}"
             results = requests.get(tg_url)
             print("消息已通过 Telegram-bot 进行通知，请检查推送结果")
 
