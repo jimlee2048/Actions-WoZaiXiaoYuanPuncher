@@ -41,7 +41,7 @@ jobs:
         BARK_TOKEN: ${{secrets.BARK_TOKEN}}
         PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
         MIAO_CODE: ${{secrets.MIAO_CODE}}
-        TG_TOKEN: ${{secrets.TG_TOKEM}}
+        TG_TOKEN: ${{secrets.TG_TOKEN}}
         TG_CHATID: ${{secrets.TG_CHATID}}
         WZXY_USERNAME: ${{secrets.USERNAME}}
         WZXY_PASSWORD: ${{secrets.PASSWORD}}
@@ -90,7 +90,7 @@ jobs:
   #       BARK_TOKEN: ${{secrets.BARK_TOKEN}}
   #       PUSHPLUS_TOKEN: ${{secrets.PUSHPLUS_TOKEN}}
   #       MIAO_CODE: ${{secrets.MIAO_CODE}}
-  #       TG_TOKEN: ${{secrets.TG_TOKEM}}
+  #       TG_TOKEN: ${{secrets.TG_TOKEN}}
   #       TG_CHATID: ${{secrets.TG_CHATID}}
   #       WZXY_USERNAME: ${{secrets.USERNAME}}
   #       WZXY_PASSWORD: ${{secrets.PASSWORD}}
