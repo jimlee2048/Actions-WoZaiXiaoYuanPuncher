@@ -13,7 +13,7 @@ jobs:
   USER_01:
     runs-on: ubuntu-latest
     # 如果严格按照README中教程操作，且没有多账户/多地点打卡需要，请将下行代码中的02改成01
-    environment: WZXY_CONFIG_02 # 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
+    environment: WZXY_CONFIG_01 # 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
