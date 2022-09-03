@@ -11,6 +11,11 @@
 <details>
 <summary><b>更新日志</b></summary>
 
+- 2022.09.02 
+  - 修复 支持日检日报（dailyreport）所需的新验证字段：地区相关验证字段`myArea`、`areacode`与`towncode`
+  - 新增 支持 Telegram Bot 推送
+  > 🎉 感谢 [@gz4zzxc](https://github.com/gz4zzxc) 的贡献
+
 - 2022.04.18 修复 2022.04.17 我在校园添加新验证字段后脚本失效的问题
   > 🎉 感谢 [@sizau](https://github.com/sizau) 分享的思路与 [@LeslieLeung](https://github.com/LeslieLeung) 提交的 PR！
   
@@ -151,7 +156,7 @@
   - pushplus
   - 钉钉机器人
   - QQ机器人（go-cqhttp）
-  - Telegram-bot
+  - Telegram Bot
 
   需要使用哪一种方式推送，创建该方式对应的 Secret 即可。
 
@@ -309,10 +314,11 @@
 ## 常见问题
 
 1. 即便所配置的密码正确，脚本执行时仍然提示`用户名或密码错误，还可尝试*次`？
-   - 在小程序中重新修改密码。
-   - 修改密码后不要马上在小程序上重新登陆。
+   - 在小程序中重新修改密码。密码建议使用简单纯数字/纯英文，且不超过10位。
+   - 修改完密码后，在小程序上点击清除缓存，然后点击退出登陆，注意先不要在小程序上重新登陆。
    - 更新对应用户配置文件中的 Secret `PASSWORD`，填写新密码。
    - 再次尝试运行脚本，查看是否正常登陆并获取 jwsession。
+   - 如果仍然失败，请暂时停用Github Action，冷却一天后再重新尝试。
    - 如仍有问题，请在确保配置文件中密码信息正确的后提 issue。
 
 2. 日检日报提交的选项不对？/ 提示`服务出错(500)`？
