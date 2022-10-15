@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   # push:
   #   branches: [ main ]
-  
+
   schedule:
   # Github Action 使用世界标准时间（UTC），北京时间（UTC+8）转换为世界标准时需要减去8小时
     - cron:  '30 16 * * *' # 默认在每天 UTC 16:30 （北京时间 0:30）执行
@@ -15,9 +15,9 @@ jobs:
     # 如果严格按照README中教程操作，且没有多账户/多地点打卡需要，请将下行代码中的02改成01
     environment: WZXY_CONFIG_02 # 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python 3.9
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: 3.9
     - name: Install dependencies
@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Import cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: .cache
         key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
@@ -64,9 +64,9 @@ jobs:
   #   runs-on: ubuntu-latest
   #   environment:           ## 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
   #   steps:
-  #   - uses: actions/checkout@v2
+  #   - uses: actions/checkout@v3
   #   - name: Set up Python 3.9
-  #     uses: actions/setup-python@v2
+  #     uses: actions/setup-python@v4
   #     with:
   #       python-version: 3.9
   #   - name: Install dependencies
@@ -74,7 +74,7 @@ jobs:
   #       python -m pip install --upgrade pip
   #       pip install -r requirements.txt
   #   - name: Import cache
-  #     uses: actions/cache@v2
+  #     uses: actions/cache@v3
   #     with:
   #       path: .cache
   #       key: ${{ secrets.CACHE_NAME }}-${{ github.run_id }}
@@ -106,4 +106,4 @@ jobs:
   #       WZXY_AREACODE: ${{secrets.AREACODE}}
   #       WZXY_TOWNCODE: ${{secrets.TOWNCODE}}
   #       WZXY_CITYCODE: ${{secrets.CITYCODE}}
-  #     run: python wzxy-dailyreport.py       
+  #     run: python wzxy-dailyreport.py
