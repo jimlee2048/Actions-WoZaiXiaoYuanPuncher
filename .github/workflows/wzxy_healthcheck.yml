@@ -50,7 +50,7 @@ jobs:
       run: python wzxy-healthcheck.py
 
   ## 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
-  # USER_01:
+  # USER_02:
   #   runs-on: ubuntu-latest
   #   environment:   # 填写需要使用的用户配置对应的环境,请自行根据实际情况修改
   #   steps:
