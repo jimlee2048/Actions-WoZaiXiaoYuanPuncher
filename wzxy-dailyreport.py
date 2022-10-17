@@ -111,6 +111,7 @@ class WoZaiXiaoYuanPuncher(utils.Data):
             "answers": '["0"]',  # 在此自定义answers字段
             "seq": str(seq),
             "temperature": utils.getRandomTemperature("36.0~36.5"),
+            "userId": "",
             "latitude": self.latitude,
             "longitude": self.longitude,
             "country": self.country,
@@ -119,10 +120,10 @@ class WoZaiXiaoYuanPuncher(utils.Data):
             "province": self.province,
             "township": self.township,
             "street": self.street,
+            "myArea":self.recommend,
             "areacode": self.areacode,
             "towncode": self.towncode,
             "citycode": self.citycode,
-            "userId": "",
             "timestampHeader": cur_time,
             "signatureHeader": hashlib.sha256(
                 f"{self.province}_{cur_time}_{self.city}".encode(
