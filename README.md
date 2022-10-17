@@ -11,14 +11,14 @@
 <details>
 <summary><b>更新日志</b></summary>
 
-- 2022.09.02 
+- 2022.09.02
   - 修复 支持日检日报（dailyreport）所需的新验证字段：地区相关验证字段`myArea`、`areacode`与`towncode`
   - 新增 支持 Telegram Bot 推送
   > 🎉 感谢 [@gz4zzxc](https://github.com/gz4zzxc) 的贡献
 
 - 2022.04.18 修复 2022.04.17 我在校园添加新验证字段后脚本失效的问题
   > 🎉 感谢 [@sizau](https://github.com/sizau) 分享的思路与 [@LeslieLeung](https://github.com/LeslieLeung) 提交的 PR！
-  
+
   > **⚠重要提醒：** 该版本暂时取消了通过Secrect`ANSWERS`自定义提交的"answers"字段的功能。如需自定义打卡时提交的"answers"，请参考代码中的注释，自行修改脚本中的对应字段。
 
 - 2022.01.24 新增 支持自定义打卡问题的选项或回答。
@@ -39,7 +39,8 @@
 
 - 2021.08.04 新增 支持多种通知方式（Serverchan-Turbo、pushplus、Bark）。
   > 🎉 感谢 [@LeslieLeung](https://github.com/LeslieLeung) 的贡献！
-  
+
+
 </details>
 
 ## 关于本脚本
@@ -54,7 +55,7 @@
   >
   > 两个脚本请按需启用，详见下方使用指南。
 
-- 利用 [actions/cache@v2](https://github.com/marketplace/actions/cache) 实现缓存 jwsession，避免频繁登录可能导致的账号登录问题。
+- 利用 [actions/cache@v3](https://github.com/marketplace/actions/cache) 实现缓存 jwsession，避免频繁登录可能导致的账号登录问题。
 
 - 利用 Github Action 的 [Secrets](https://docs.github.com/cn/actions/reference/encrypted-Secrets) 加密储存所有配置信息，任何人都无法从项目仓库中直接读取这些敏感信息。
 
@@ -70,10 +71,11 @@
 
 ### Step0 准备工作
 
-- 对小程序进行抓包，抓取自己的打卡数据，请参见文末[抓包教程](#抓包教程)。
+- ~~对小程序进行抓包，抓取自己的打卡数据，请参见文末[抓包教程](#抓包教程)。~~
 - 在小程序 我的-设置 中修改自己的密码。
   - 注意：密码为6-12位
   - 修改完成后请勿马上重新登陆
+  - 修改完密码后请点击下方的清除缓存，参考[issues#58](https://github.com/jimlee2002/Actions-WoZaiXiaoYuanPuncher/issues/58)
 
 ### Step1 Fork本仓库
 
@@ -96,19 +98,30 @@
 - 进入新建的 Environment ，在 “Environment Secrets” 一栏中点击 `Add Secret` 按钮，根据需要新建下列的 Secret，并填写对应 Value 值：
   <details>
   <summary><b>基本参数</b></summary>
-  
-  > 由于不同的学校情况与实际需求，以下数据需要自行抓取。
 
   - `USERNAME`：我在校园账号的用户名。
 
   - `PASSWORD`：我在校园账号的密码。
 
   - `CACHE_NAME`：值任意，用于储存 jwsession 的缓存文件的前缀名。为避免信息泄露，建议使用包含数字与大小写英文的无序字符串，且长度在32位以上（可以尝试键盘乱打 or 使用生成器）。
+
     > 请注意：配置多账户打卡时，不同环境中的`CACHE_NAME`不能相同！！
 
-  - `TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.3`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secret，脚本将使用默认值`36.0~36.5`。
+  - `CITY`：打卡该项目时所提交位置信息的市。
+
+  - ` RECOMMEND `：打卡该项目时所提交位置信息的学校名
+
+    此项具体需要在[WebService API | 腾讯位置服务 (qq.com) 逆地址解析](https://lbs.qq.com/service/webService/webServiceGuide/webServiceGcoder))中获取
+
+    ![逆地址解析](https://s2.loli.net/2022/10/17/TtxswOykjN3RYI9.png)
+
+    上图为在线测试结果，其中的`recommend`即为所要配置的内容
+
+
+  - ~~`TEMPERATURE`（可选）：打卡提交体温信息时使用的体温值，数值要求精确到1位小数。可以仅指定一个温度值（例：`36.0`），也可以指定温度值范围，两个温度值间使用符号`~`连接（例：`36.1~36.3`），打卡时将随机从指定的范围中选取一个值作为体温数据提交。如不创建该 Secret，脚本将使用默认值`36.0~36.5`。~~
 
   - ~~`ANSWERS`（可选）：打卡时所提交的选项回答，对应抓包信息中的“answers”。可以通过该 Secrect 自定义打卡问题的选项或回答。~~
+
     > ~~对于**健康打卡**`wzxy-healthcheck.py`，你可以通过修改体温相关的回答为`%TEM%`，让脚本每次打卡时根据上面`TEMPERATURE`的设置自动生成体温。~~
     >
     > ~~例：**健康打卡**的抓包结果中，anwsers字段对应的value为`["0","36.2","无"]`;即：第2个关于体温的回答为36.2。~~
@@ -121,29 +134,22 @@
     > 如需自定义打卡时提交的"answers"，请参考代码中的注释，自行修改脚本中的对应字段。
 
 
-  - `LATITUDE`：打卡该项目时所提交位置信息的纬度，对应抓包信息中的 “latitude”。
-  
-  - `LONGITUDE`：打卡该项目时所提交位置信息的经度，对应抓包信息中的 “longitude”。
-  
-  - `COUNTRY`：打卡该项目时所提交位置信息的经度，对应抓包信息中的 “country”。
-  
-  - `CITY`：打卡该项目时所提交位置信息的市，对应抓包信息中的 “city”。
-  
-  - `DISTRICT`：打卡该项目时所提交位置信息的区，对应抓包信息中的 “district”。
-  
-  - `PROVINCE`：打卡该项目时所提交位置信息的省，对应抓包信息中的 “province”。
-  
-  - `TOWNSHIP`：打卡该项目时所提交位置信息的街道，对应抓包信息中的 “township” 。
-  
-  - `STREET`：Value 值填写 打卡该项目时所提交位置信息的路，对应抓包信息中的 “street”。
-  
-  - `AREACODE`：填写抓包信息中 "areacode" 的值。
+  - ~~`LATITUDE`：打卡该项目时所提交位置信息的纬度，对应抓包信息中的 “latitude”。~~
+  - ~~`LONGITUDE`：打卡该项目时所提交位置信息的经度，对应抓包信息中的 “longitude”。~~~
+  - ~~`COUNTRY`：打卡该项目时所提交位置信息的经度，对应抓包信息中的 “country”。~~
+  - ~~`DISTRICT`：打卡该项目时所提交位置信息的区，对应抓包信息中的 “district”。~~
+  - ~~`PROVINCE`：打卡该项目时所提交位置信息的省，对应抓包信息中的 “province”。~~
+  - ~~`TOWNSHIP`：打卡该项目时所提交位置信息的街道，对应抓包信息中的 “township” 。~~
+  - ~~`STREET`：Value 值填写 打卡该项目时所提交位置信息的路，对应抓包信息中的 “street”。~~
+  - ~~`AREACODE`：填写抓包信息中 "areacode" 的值。~~
+  - ~~`TOWNCODE`：填写抓包信息中 "towncode" 的值。~~
+  - ~~`CITYCODE`：填写抓包信息中 "citycode" 的值。~~
 
-  - `TOWNCODE`：填写抓包信息中 "towncode" 的值。
-
-  - `CITYCODE`：填写抓包信息中 "citycode" 的值。
-  
   > 如果需要两个打卡项目所需提交的地理位置信息不一样（比如“日检日报”在校打卡，“健康打卡”在家打卡），可以分别抓取两个打卡项目的提交数据，并参考文末“常见问题 - 3.如何配置多账户/多地点打卡？” 新建 Environment 并配置对应 Secect。
+
+ - Environment配置完成样例（无推送）
+
+   ![样例](https://s2.loli.net/2022/10/17/ndqOiQNSEPU3Fot.png)
 
   </details>
 
@@ -161,7 +167,7 @@
   需要使用哪一种方式推送，创建该方式对应的 Secret 即可。
 
   可以同时推送多个渠道，只需额外创建这些推送方式对应的 Secret 即可。
-  
+
   如不创建这些推送方式对应的 Secret，则不会推送打卡结果通知。
 
   <details>
@@ -178,7 +184,7 @@
     > 形如 `http://yourdomain.name/thisisatoken`，用于 Bark 推送打卡结果的通知；**请注意不要以斜杠结尾。**
     >
     > 为避免输入错误，建议从 Bark 客户端直接复制。
-  
+
   </details>
 
   <details>
@@ -220,12 +226,14 @@
     > 如需配置基于 go-cqhttp 的 QQ 机器人推送，上述的 `GOBOT_URL` 和 `GOBOT_QQ` 为必填项，`GOBOT_TOKEN`可为空。
     >
     > 详情请参考：[go-cqhttp相关API](https://docs.go-cqhttp.org/api)
-  
+
   </details>
 
   - `TG-TOKEN` (可选)：填写在 BotFather 处 creat a bot 获取的`API ToKen`
 
   - `TG-CHATID`(可选)：Telegram 中关注 'getuserID' 获取
+
+</details>
 
 ### Step3 配置脚本运行时间 
 
@@ -234,13 +242,13 @@
 - `wzxy_dailyreport.yml`
 
   - 对应脚本“`wzxy-dailyreport.py`”（打卡项目“日检日报”）。
-  
+
   - 默认在每天北京时间 7:30 执行。
-  
+
 - `wzxy_healthcheck.yml`
 
   - 对应脚本“`wzxy-healthcheck.py`”（打卡项目“健康打卡”）。
-  
+
   - 默认在每天北京时间 0:30 执行。
 
 如果需要修改脚本的运行时间：
@@ -295,7 +303,11 @@
 
 - 等待几秒后刷新页面。
 
-- 2分钟后登入我在校园小程序；如无意外，打卡将被完成；如果你正确配置了 PUSH_TOKEN，应同时在2分钟内收到微信消息推送。
+- ~~2分钟后登入我在校园小程序；如无意外，打卡将被完成；~~ 如果你正确配置了 PUSH_TOKEN，应同时在2分钟内收到微信消息推送。
+
+- 下图为设置推送并正常打卡的情况
+
+  ![正常打卡](https://s2.loli.net/2022/10/17/upf6tngqr8AolUL.png)
 
 - 如果出现以下情况：
   - 2分钟后仍未自动打卡。
@@ -339,6 +351,9 @@
 6. 其他问题？
    - 欢迎提 issue。
 
+<details>
+<summary><b>抓包大致方法</b></summary>
+
 ## 抓包大致方法
 
 ![cap-howto](https://i.loli.net/2021/08/07/VBrtzGnQEJc5XF4.png)
@@ -354,10 +369,12 @@
 - Fiddler 配置与抓包操作参考：
 
   - [Chaney1024/wozaixiaoyuan](Chaney1024/wozaixiaoyuan)
-  
+
   - [Duangdi/fuck-wozaixiaoyuan](https://github.com/Duangdi/fuck-wozaixiaoyuan/blob/master/%E4%B8%80%E6%97%A5%E4%B8%89%E6%A3%80%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1.pdf)
-  
+
   - [Liuism/xsyu-wzxy-sign](https://github.com/Liuism/xsyu-wzxy-sign)
+
+</details>
 
 ## Todo
 
