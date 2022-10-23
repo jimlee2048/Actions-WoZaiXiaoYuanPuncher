@@ -116,11 +116,11 @@
 
   - `ADDRESS_RECOMMEND`：打卡时所提交位置信息的学校名/地点名。
 
-    **注意：** 此项具体参数内容需在[WebService API | 腾讯位置服务 (qq.com) 逆地址解析](https://lbs.qq.com/service/webService/webServiceGuide/webServiceGcoder))中获取
+    **⚠注意：** 请填写[腾讯地图服务 - 地图坐标拾取器](https://lbs.qq.com/getPoint/)中检索到的学校名/地点名
+    
+    示例：
+    ![image.png](https://s2.loli.net/2022/10/23/gxyQenF1uWYithb.png)
 
-    ![逆地址解析](https://s2.loli.net/2022/10/17/TtxswOykjN3RYI9.png)
-
-    上图为在线测试结果，其中的`recommend`即为所要配置的内容
 
     > 如需两个打卡项目提交不同的地理位置信息（如“日检日报”在校打卡，“健康打卡”在家打卡），请参考文末“常见问题 - 3.如何配置多账户/多地点打卡？” 
 
