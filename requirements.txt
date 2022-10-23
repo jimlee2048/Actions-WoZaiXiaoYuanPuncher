@@ -1,3 +1,4 @@
 requests==2.26.0
 urllib3==1.26.7
 pytz==2021.3
+jsonpickle==2.2.0
