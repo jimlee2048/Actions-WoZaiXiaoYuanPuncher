@@ -120,7 +120,7 @@ class WoZaiXiaoYuanPuncher(utils.Data):
             "province": self.province,
             "township": self.township,
             "street": self.street,
-            "myArea":self.recommend,
+            "myArea": "",
             "areacode": self.areacode,
             "towncode": self.towncode,
             "citycode": self.citycode,
