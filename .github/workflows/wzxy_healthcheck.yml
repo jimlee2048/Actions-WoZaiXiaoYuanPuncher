@@ -46,7 +46,7 @@ jobs:
         WZXY_USERNAME: ${{secrets.USERNAME}}
         WZXY_PASSWORD: ${{secrets.PASSWORD}}
         WZXY_CITY: ${{secrets.CITY}}
-        WZXY_RECOMMEND: ${{secrets.RECOMMEND}}
+        ADDRESS_RECOMMEND: ${{secrets.RECOMMEND}}
       run: python wzxy-healthcheck.py
 
   ## 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
@@ -85,5 +85,5 @@ jobs:
   #       WZXY_USERNAME: ${{secrets.USERNAME}}
   #       WZXY_PASSWORD: ${{secrets.PASSWORD}}
   #       WZXY_CITY: ${{secrets.CITY}}
-  #       WZXY_RECOMMEND: ${{secrets.RECOMMEND}}
+  #       ADDRESS_RECOMMEND: ${{secrets.RECOMMEND}}
   #     run: python wzxy-healthcheck.py

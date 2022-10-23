@@ -16,7 +16,7 @@ import utils
 
 class WoZaiXiaoYuanPuncher(utils.Data):
     def __init__(self):
-        super().__init__(city=os.environ["WZXY_CITY"], recommend=os.environ["WZXY_RECOMMEND"])
+        super().__init__(city=os.environ["WZXY_CITY"], address_recommend=os.environ["ADDRESS_RECOMMEND"])
         # 打卡结果
         self.status_code = 0
         # 登陆接口

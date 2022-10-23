@@ -43,7 +43,7 @@ class processJson:
         self.formatted_addresses = None
         self.jwsession = None
         self.address = address
-        self.recommend = None
+        self.address_recommend = None
 
     def read(self):
         try:
@@ -82,16 +82,16 @@ class processJson:
 
 
 class Data(processJson):
-    def __init__(self, city, recommend):
-        super().__init__(".cache/cache.json", city + recommend)
+    def __init__(self, city, address_recommend):
+        super().__init__(".cache/cache.json", city + address_recommend)
         jr = self.read()
-        if 'recommend' not in jr or jr['recommend'] != recommend:
-            jr = self.json_request(city + recommend)
-            self.recommend = jr['formatted_addresses']['recommend']
+        if 'recommend' not in jr or jr['recommend'] != address_recommend:
+            jr = self.json_request(city + address_recommend)
+            self.address_recommend = jr['formatted_addresses']['recommend']
             self.set_cache()
         if 'jwsession' in jr:
             self.jwsession = jr['jwsession']
-        self.recommend = jr['formatted_addresses']['recommend']
+        self.address_recommend = jr['formatted_addresses']['recommend']
         self.latitude = str(jr['location']['lat'])
         self.longitude = str(jr['location']['lng'])
         self.country = jr['address_component']['nation']
