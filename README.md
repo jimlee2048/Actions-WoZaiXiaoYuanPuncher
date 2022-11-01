@@ -1,5 +1,15 @@
 # WoZaiXiaoYuanPuncher-Actions
 
+<details>
+<summary><b>⚠️ 2022-11-02 我在校园更新，项目当前不可用！</b></summary>
+- 我在校园调整了打卡项目。原“健康打卡”&“日检日报”打卡项目合并为新“日检日报”
+- 新“日检日报”打卡项目使用了新的提交接口，旧接口虽然能成功提交但实际显示未打卡。
+
+😥 由于个人原因，短期内我暂时难以投入时间进行适配。
+
+🥰 欢迎有能力的朋友提交Pull Request，万分感谢！
+</details>
+
 我在校园自动打卡程序：[zimin9/WoZaiXiaoYuanPuncher](https://github.com/zimin9/WoZaiXiaoYuanPuncher) 的 Github Action 版。
 
 基于原仓库中 [@Chorer](https://github.com/Chorer) 贡献的腾讯云函数版脚本修改。
