@@ -85,12 +85,12 @@ class Data(processJson):
     def __init__(self, city, address_recommend):
         super().__init__(".cache/cache.json", city + address_recommend)
         jr = self.read()
-        if 'recommend' not in jr or jr['recommend'] != address_recommend:
+        if 'jwsession' in jr:
+            self.jwsession = jr['jwsession']
+        if not jr['formatted_addresses']['recommend'] or jr['formatted_addresses']['recommend'] != address_recommend:
             jr = self.json_request(city + address_recommend)
             self.address_recommend = jr['formatted_addresses']['recommend']
             self.set_cache()
-        if 'jwsession' in jr:
-            self.jwsession = jr['jwsession']
         self.address_recommend = jr['formatted_addresses']['recommend']
         self.latitude = str(jr['location']['lat'])
         self.longitude = str(jr['location']['lng'])

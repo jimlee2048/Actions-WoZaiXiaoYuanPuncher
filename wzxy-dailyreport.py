@@ -7,11 +7,8 @@ import os
 import time
 import urllib
 from urllib.parse import urlencode
-
 import requests
-
 import utils
-
 
 class WoZaiXiaoYuanPuncher(utils.Data):
     def __init__(self):
