@@ -6,18 +6,13 @@ import json
 import os
 import time
 import urllib
-import urllib.parse
 from urllib.parse import urlencode
-
 import requests
-
 import utils
 
-
-class WoZaiXiaoYuanPuncher:
+class WoZaiXiaoYuanPuncher(utils.Data):
     def __init__(self):
-        # JWSESSION
-        self.jwsession = None
+        super().__init__(city=os.environ["WZXY_CITY"], address_recommend=os.environ["ADDRESS_RECOMMEND"])
         # 打卡时段
         self.seq = None
         # 打卡结果
@@ -37,6 +32,7 @@ class WoZaiXiaoYuanPuncher:
         }
         # 请求体（必须有）
         self.body = "{}"
+        self.session = None
 
     # 登录
     def login(self):
@@ -50,8 +46,8 @@ class WoZaiXiaoYuanPuncher:
         res = json.loads(response.text)
         if res["code"] == 0:
             print("使用账号信息登录成功")
-            jwsession = response.headers["JWSESSION"]
-            self.setJwsession(jwsession)
+            self.jwsession = response.headers["JWSESSION"]
+            self.set_cache()
             return True
         else:
             print(res)
@@ -59,37 +55,11 @@ class WoZaiXiaoYuanPuncher:
             self.status_code = 5
             return False
 
-    # 设置JWSESSION
-    def setJwsession(self, jwsession):
-        # 如果找不到cache,新建cache储存目录与文件
-        if not os.path.exists(".cache"):
-            print("正在创建cache储存目录与文件...")
-            os.mkdir(".cache")
-            data = {"jwsession": jwsession}
-        elif not os.path.exists(".cache/cache.json"):
-            print("正在创建cache文件...")
-            data = {"jwsession": jwsession}
-        # 如果找到cache,读取cache并更新jwsession
-        else:
-            print("找到cache文件，正在更新cache中的jwsession...")
-            data = utils.processJson(".cache/cache.json").read()
-            data["jwsession"] = jwsession
-        utils.processJson(".cache/cache.json").write(data)
-        self.jwsession = data["jwsession"]
-
-    # 获取JWSESSION
-    def getJwsession(self):
-        if not self.jwsession:  # 读取cache中的配置文件
-            data = utils.processJson(".cache/cache.json").read()
-            self.jwsession = data["jwsession"]
-        return self.jwsession
-
-    # 获取打卡列表，判断当前打卡时间段与打卡情况，符合条件则自动进行打卡
     def PunchIn(self):
         print("获取打卡列表中...")
         url = "https://student.wozaixiaoyuan.com/heat/getTodayHeatList.json"
         self.header["Host"] = "student.wozaixiaoyuan.com"
-        self.header["JWSESSION"] = self.getJwsession()
+        self.header["JWSESSION"] = self.jwsession
         self.session = requests.session()
         response = self.session.post(url=url, data=self.body, headers=self.header)
         res = json.loads(response.text)
@@ -121,7 +91,7 @@ class WoZaiXiaoYuanPuncher:
                         self.status_code = 2
                         print("已经打过卡了")
             # 如果当前时间不在任何一个打卡时段内
-            if inSeq == False:
+            if not inSeq:
                 self.status_code = 3
                 print("打卡失败：不在打卡时间段内")
 
@@ -132,32 +102,28 @@ class WoZaiXiaoYuanPuncher:
         url = "https://student.wozaixiaoyuan.com/heat/save.json"
         self.header["Host"] = "student.wozaixiaoyuan.com"
         self.header["Content-Type"] = "application/x-www-form-urlencoded"
-        self.header["JWSESSION"] = self.getJwsession()
+        self.header["JWSESSION"] = self.jwsession
         cur_time = int(round(time.time() * 1000))
-        if os.environ["WZXY_TEMPERATURE"]:
-            TEMPERATURE = utils.getRandomTemperature(os.environ["WZXY_TEMPERATURE"])
-        else:
-            TEMPERATURE = utils.getRandomTemperature("36.0~36.5")
         sign_data = {
             "answers": '["0"]',  # 在此自定义answers字段
             "seq": str(seq),
-            "temperature": TEMPERATURE,
-            "latitude": os.environ["WZXY_LATITUDE"],
-            "longitude": os.environ["WZXY_LONGITUDE"],
-            "country": os.environ["WZXY_COUNTRY"],
-            "city": os.environ["WZXY_CITY"],
-            "district": os.environ["WZXY_DISTRICT"],
-            "province": os.environ["WZXY_PROVINCE"],
-            "township": os.environ["WZXY_TOWNSHIP"],
-            "street": os.environ["WZXY_STREET"],
-            "myArea": os.environ["WZXY_MYAREA"],
-            "areacode": os.environ["WZXY_AREACODE"],
-            "towncode": os.environ["WZXY_TOWNCODE"],
-            "citycode": os.environ["WZXY_CITYCODE"],
+            "temperature": utils.getRandomTemperature("36.0~36.5"),
             "userId": "",
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "country": self.country,
+            "city": self.city,
+            "district": self.district,
+            "province": self.province,
+            "township": self.township,
+            "street": self.street,
+            "myArea": "",
+            "areacode": self.areacode,
+            "towncode": self.towncode,
+            "citycode": self.citycode,
             "timestampHeader": cur_time,
             "signatureHeader": hashlib.sha256(
-                f"{os.environ['WZXY_PROVINCE']}_{cur_time}_{os.environ['WZXY_CITY']}".encode(
+                f"{self.province}_{cur_time}_{self.city}".encode(
                     "utf-8"
                 )
             ).hexdigest(),
