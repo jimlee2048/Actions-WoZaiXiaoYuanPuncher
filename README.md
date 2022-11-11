@@ -1,6 +1,17 @@
 # WoZaiXiaoYuanPuncher-Actions
 
 <details>
+<summary><b>⚠️ 2022-11-11 我在校园更新，项目当前可用！</b></summary>
+- 需要抓包一次成功打卡，获取新增两个参数'WZXY_location'和'WZXY_SCHOOL'，在环境变量里新建并填入
+- ![image](https://user-images.githubusercontent.com/71918224/201280010-42f55de9-8f2f-42cf-acf6-55f6b177630c.png)
+- 图为参数位置
+
+😥 由于个人原因，短期内我暂时难以投入时间进行适配。
+
+🥰 欢迎有能力的朋友提交Pull Request，万分感谢！
+</details>
+
+<details>
 <summary><b>⚠️ 2022-11-02 我在校园更新，项目当前不可用！</b></summary>
 - 我在校园调整了打卡项目。原“健康打卡”&“日检日报”打卡项目合并为新“日检日报”
 - 新“日检日报”打卡项目使用了新的提交接口，旧接口虽然能成功提交但实际显示未打卡。
