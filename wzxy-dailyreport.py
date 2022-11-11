@@ -11,7 +11,7 @@ import requests
 import utils
 
 
-# 需要新增参数'WZXY_location'和'WZXY_SCHOOL'
+# 需要新增参数'WZXY_location'和'WZXY_SCHOOL'(git新增参数需要在yml中也新增）
 
 
 class WoZaiXiaoYuanPuncher(utils.Data):
@@ -142,7 +142,7 @@ class WoZaiXiaoYuanPuncher(utils.Data):
             print(response)
             print("打卡失败")
 
-    # 获取打卡时段
+    # 获取打卡时段 弃用
     def getSeq(self):
         seq = self.seq
         if seq == 1:
@@ -154,6 +154,7 @@ class WoZaiXiaoYuanPuncher(utils.Data):
         else:
             return "非打卡时段"
 
+    # 获取打卡时段
     def getTime(self):
         time = self.time
 
