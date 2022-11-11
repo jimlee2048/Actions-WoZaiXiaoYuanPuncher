@@ -10,25 +10,38 @@ from urllib.parse import urlencode
 import requests
 import utils
 
+
+# 需要新增参数'WZXY_location'和'WZXY_SCHOOL'(git新增参数需要在yml中也新增）
+
+
 class WoZaiXiaoYuanPuncher(utils.Data):
     def __init__(self):
         super().__init__(city=os.environ["WZXY_CITY"], address_recommend=os.environ["ADDRESS_RECOMMEND"])
         # 打卡时段
         self.seq = None
+        self.time = None
         # 打卡结果
         self.status_code = 0
         # 登陆接口
         self.loginUrl = "https://gw.wozaixiaoyuan.com/basicinfo/mobile/login/username"
         # 请求头
         self.header = {
-            "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.13(0x18000d32) NetType/WIFI Language/zh_CN miniProgram",
             "Content-Type": "application/json;charset=UTF-8",
-            "Content-Length": "2",
+            "Content-Length": "212",
             "Host": "gw.wozaixiaoyuan.com",
-            "Accept-Language": "en-us,en",
             "Accept": "application/json, text/plain, */*",
+            # 不加下面的参数会提示非法请求
+            "Origin": "https://gw.wozaixiaoyuan.com",
+            "X - Requested - With": "com.tencent.mm",
+            "Sec - Fetch - Site": "same-origin",
+            "Sec - Fetch - Mode": "cors",
+            "Sec - Fetch - Dest": "empty",
+            "Referer": f"https://gw.wozaixiaoyuan.com/h5/mobile/health/index/health/detail?id={os.environ['WZXY_SCHOOL']}",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+
         }
         # 请求体（必须有）
         self.body = "{}"
@@ -57,14 +70,15 @@ class WoZaiXiaoYuanPuncher(utils.Data):
 
     def PunchIn(self):
         print("获取打卡列表中...")
-        url = "https://student.wozaixiaoyuan.com/heat/getTodayHeatList.json"
-        self.header["Host"] = "student.wozaixiaoyuan.com"
+        url = "https://gw.wozaixiaoyuan.com/health/mobile/health/getBatch"
+        self.header["Host"] = "gw.wozaixiaoyuan.com"
         self.header["JWSESSION"] = self.jwsession
+        self.header["Cookie"] = f"JWSESSION={self.jwsession}"
         self.session = requests.session()
         response = self.session.post(url=url, data=self.body, headers=self.header)
         res = json.loads(response.text)
         # 如果 jwsession 无效，则重新 登录 + 打卡
-        if res["code"] == -10:
+        if res["code"] == 103:  # 101貌似是密码错误要重置
             print(res)
             print("jwsession 无效，将尝试使用账号信息重新登录")
             self.status_code = 4
@@ -78,15 +92,17 @@ class WoZaiXiaoYuanPuncher(utils.Data):
             # 标志时段是否有效
             inSeq = False
             # 遍历每个打卡时段（不同学校的打卡时段数量可能不一样）
-            for i in res["data"]:
+            res_data = res["data"]
+            daily_list = res_data["list"]
+            for i in daily_list:
                 # 判断时段是否有效
                 if int(i["state"]) == 1:
                     inSeq = True
                     # 保存当前学校的打卡时段
-                    self.seq = int(i["seq"])
+                    self.time = f"{i['start']}-{i['end']}"
                     # 判断是否已经打卡
                     if int(i["type"]) == 0:
-                        self.doPunchIn(str(i["seq"]))
+                        self.doPunchIn()
                     elif int(i["type"]) == 1:
                         self.status_code = 2
                         print("已经打过卡了")
@@ -97,41 +113,27 @@ class WoZaiXiaoYuanPuncher(utils.Data):
 
     # 执行打卡
     # 参数seq ： 当前打卡的序号
-    def doPunchIn(self, seq):
-        print("正在进行：" + self.getSeq() + "...")
-        url = "https://student.wozaixiaoyuan.com/heat/save.json"
-        self.header["Host"] = "student.wozaixiaoyuan.com"
-        self.header["Content-Type"] = "application/x-www-form-urlencoded"
+    def doPunchIn(self,):
+        print("正在进行：" + self.getTime() + "...")
+        url = f"https://gw.wozaixiaoyuan.com/health/mobile/health/save?batch={os.environ['WZXY_SCHOOL']}"
+        self.header["Host"] = "gw.wozaixiaoyuan.com"
+        self.header["Content-Type"] = "application/json;charset=UTF-8"
         self.header["JWSESSION"] = self.jwsession
+        self.header["Cookie"] = f"JWSESSION={self.jwsession}; JWSESSION={self.jwsession}"
         cur_time = int(round(time.time() * 1000))
         sign_data = {
-            "answers": '["0"]',  # 在此自定义answers字段
-            "seq": str(seq),
-            "temperature": utils.getRandomTemperature("36.0~36.5"),
-            "userId": "",
-            "latitude": self.latitude,
-            "longitude": self.longitude,
-            "country": self.country,
-            "city": self.city,
-            "district": self.district,
-            "province": self.province,
-            "township": self.township,
-            "street": self.street,
-            "myArea": "",
-            "areacode": self.areacode,
-            "towncode": self.towncode,
-            "citycode": self.citycode,
-            "timestampHeader": cur_time,
-            "signatureHeader": hashlib.sha256(
-                f"{self.province}_{cur_time}_{self.city}".encode(
-                    "utf-8"
-                )
-            ).hexdigest(),
+            "location": os.environ['WZXY_location'],
+            "t1": "[\"无下列情况，健康状况正常\"]",
+            "t2": "是",
+            "type": 0,
+            "locationMode": 0,
+            "locationType": 0,
         }
-        data = urlencode(sign_data)
+        print(self.country,)
         self.session = requests.session()
-        response = self.session.post(url=url, data=data, headers=self.header)
+        response = self.session.post(url=url, json=sign_data, headers=self.header)
         response = json.loads(response.text)
+
         # 打卡情况
         if response["code"] == 0:
             self.status_code = 1
@@ -140,7 +142,7 @@ class WoZaiXiaoYuanPuncher(utils.Data):
             print(response)
             print("打卡失败")
 
-    # 获取打卡时段
+    # 获取打卡时段 弃用
     def getSeq(self):
         seq = self.seq
         if seq == 1:
@@ -151,6 +153,12 @@ class WoZaiXiaoYuanPuncher(utils.Data):
             return "晚打卡"
         else:
             return "非打卡时段"
+
+    # 获取打卡时段
+    def getTime(self):
+        time = self.time
+
+        return time
 
     # 获取打卡结果
     def getResult(self):
@@ -172,7 +180,7 @@ class WoZaiXiaoYuanPuncher(utils.Data):
     def sendNotification(self):
         notifyTime = utils.getCurrentTime()
         notifyResult = self.getResult()
-        notifySeq = self.getSeq()
+        notifySeq = self.getTime()
 
         if os.environ.get("SCT_KEY"):
             # serverchan 推送
