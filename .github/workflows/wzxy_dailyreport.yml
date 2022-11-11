@@ -46,8 +46,8 @@ jobs:
         WZXY_PASSWORD: ${{secrets.PASSWORD}}
         WZXY_CITY: ${{secrets.CITY}}
         ADDRESS_RECOMMEND: ${{secrets.RECOMMEND}}
-        # WZXY_location: ${{secrets.WZXY_location}}
-        # WZXY_SCHOOL: ${{secrets.WZXY_SCHOOL}}
+        WZXY_location: ${{secrets.WZXY_location}}
+        WZXY_SCHOOL: ${{secrets.WZXY_SCHOOL}}
       run: python wzxy-dailyreport.py
 
   ## 多账户配置示例，请复制下面的代码后取消注释再修改，粘贴时注意缩进
